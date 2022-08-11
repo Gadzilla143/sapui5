@@ -12,11 +12,6 @@
                     headerRole="Banner"
                     headerLabel="{i18n>Overview_headerLabel}"/>
         </landmarkInfo>
-        <headerContent>
-            <Button
-                    icon="sap-icon://hello-world"
-                    press=".onOpenDialog"/>
-        </headerContent>
         <content>
             <mvc:XMLView viewName="sap.ui.demo.walkthrough.view.InvoiceList"/>
         </content>

@@ -3,18 +3,6 @@
         xmlns="sap.m"
         xmlns:mvc="sap.ui.core.mvc">
     <Panel accessibleRole="Region">
-    <headerToolbar>
-        <Toolbar>
-            <Title text="{i18n>invoiceListTitle}"/>
-            <ToolbarSpacer/>
-            <SearchField
-                    width="50%"
-                    search=".onFilterInvoices"
-                    ariaLabelledBy="searchFieldLabel"
-                    ariaDescribedBy="searchFieldDescription"
-                    placeholder="{i18n>searchFieldPlaceholder}"/>
-        </Toolbar>
-    </headerToolbar>
     <Table
             id="invoiceList"
             class="sapUiResponsiveMargin"
@@ -23,22 +11,21 @@
 			path : 'invoice>/Invoices',
 			sorter : {
 				path : 'ShipperName',
-				group : true
+				group : false
 			}
 		}">
         <headerToolbar>
             <Toolbar>
                 <Title text="{i18n>invoiceListTitle}"/>
                 <ToolbarSpacer/>
-                <SearchField width="50%" search=".onFilterInvoices"/>
+                <SearchField width="20%" search=".onFilterInvoices"/>
             </Toolbar>
         </headerToolbar>
         <columns>
             <Column
                     hAlign="End"
-                    minScreenWidth="Small"
                     demandPopin="true"
-                    width="4em">
+                    width="5em">
                 <Text text="{i18n>columnQuantity}"/>
             </Column>
             <Column>

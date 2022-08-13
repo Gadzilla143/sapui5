@@ -3,8 +3,8 @@ sap.ui.define([
   "sap/ui/model/json/JSONModel",
   "../model/formatter",
   "sap/ui/model/Filter",
-  "sap/ui/model/FilterOperator"
-], function (Controller, JSONModel, formatter, Filter, FilterOperator) {
+  "../utils/filters"
+], function (Controller, JSONModel, formatter, Filter, FilterUtils) {
   "use strict";
 
   return Controller.extend("sap.ui.demo.walkthrough.controller.InvoiceList", {
@@ -12,23 +12,36 @@ sap.ui.define([
     formatter: formatter,
 
     onInit: function () {
+      this.search = this.byId("slProductName");
+      this.statuses = this.byId("slStatus");
+      this.supplier = this.byId("slSupplier");
       var oViewModel = new JSONModel({
         currency: "EUR"
       });
       this.getView().setModel(oViewModel, "view");
     },
-    onFilterInvoices: function (oEvent) {
-      // build filter array
-      var aFilter = [];
-      var sQuery = oEvent.getParameter("query");
-      if (sQuery) {
-        aFilter.push(new Filter("ProductName", FilterOperator.Contains, sQuery));
-      }
 
-      // filter binding
+    onFilterChange: function () {
       var oList = this.byId("invoiceList");
       var oBinding = oList.getBinding("items");
-      oBinding.filter(aFilter);
+      var filters = [];
+      var search = this.search.getValue();
+      var statuses = this.statuses.getSelectedItems();
+      var supplier = this.supplier.getValue();
+
+      if (search) {
+        filters.push(FilterUtils.createFilter("ProductName", search));
+      }
+      if (statuses) {
+        statuses.forEach(status => {
+          filters.push(FilterUtils.createFilter("Status", status.getKey()));
+        })
+      }
+      if (supplier) {
+        filters.push(FilterUtils.createFilter("ShipperName", supplier));
+      }
+
+      oBinding.filter(filters);
     },
 
     onPress: function (oEvent) {

@@ -1,7 +1,8 @@
 <mvc:View
         controllerName="sap.ui.demo.walkthrough.controller.InvoiceList"
         xmlns="sap.m"
-        xmlns:mvc="sap.ui.core.mvc">
+        xmlns:mvc="sap.ui.core.mvc"
+        xmlns:core="sap.ui.core">
     <Panel accessibleRole="Region">
     <Table
             id="invoiceList"
@@ -19,7 +20,31 @@
             <Toolbar>
                 <Title text="{i18n>invoiceListTitle}"/>
                 <ToolbarSpacer/>
-                <SearchField width="20%" search=".onFilterInvoices"/>
+                <MultiComboBox
+                        id="slStatus"
+                        placeholder="{i18n>invoiceStatusLabel}"
+                        type="Text"
+                        selectionChange=".onFilterChange"
+                        width="250px">
+                    <items>
+                        <core:Item key="C" text="Done"/>
+                        <core:Item key="B" text="In Progress"/>
+                        <core:Item key="A" text="New"/>
+                    </items>
+                </MultiComboBox>
+                <ComboBox
+                        id="slSupplier"
+                        placeholder="{i18n>invoiceSupplierLabel}"
+                        type="Text"
+                        showClearIcon="true"
+                        change=".onFilterChange"
+                        width="150px">
+                    <items>
+                        <core:Item key="001" text="ACME"/>
+                        <core:Item key="002" text="Fun Inc."/>
+                    </items>
+                </ComboBox>
+                <SearchField id="slProductName" width="20%" search=".onFilterChange"/>
             </Toolbar>
         </headerToolbar>
         <columns>

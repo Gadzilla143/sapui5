@@ -19,7 +19,6 @@ sap.ui.define([
     },
 
     _onObjectMatched: function (oEvent) {
-      this.byId("rating").reset();
       this.getView().bindElement({
         path: "/" + window.decodeURIComponent(oEvent.getParameter("arguments").invoicePath),
         model: "invoice"
@@ -37,12 +36,5 @@ sap.ui.define([
         oRouter.navTo("overview", {}, true);
       }
     },
-
-    onRatingChange: function (oEvent) {
-      var fValue = oEvent.getParameter("value");
-      var oResourceBundle = this.getView().getModel("i18n").getResourceBundle();
-
-      MessageToast.show(oResourceBundle.getText("ratingConfirmation", [fValue]));
-    }
   });
 });

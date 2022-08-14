@@ -12,7 +12,7 @@
             items="{
 			path : 'invoice>/Invoices',
 			sorter : {
-				path : 'ShipperName',
+				path : 'ID',
 				group : false
 			}
 		}">
@@ -20,6 +20,12 @@
             <Toolbar>
                 <Title text="{i18n>invoiceListTitle}"/>
                 <ToolbarSpacer/>
+                <Button
+                        type="Reject"
+                        text="Delete"
+                        press=".onDelete"
+                        ariaDescribedBy="rejectButtonDescription genericButtonDescription"
+                />
                 <MultiComboBox
                         id="slStatus"
                         placeholder="{i18n>invoiceStatusLabel}"

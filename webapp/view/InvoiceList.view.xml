@@ -22,7 +22,7 @@
                 <ToolbarSpacer/>
                 <Button
                         type="Reject"
-                        text="Delete"
+                        text="{i18n>deleteText}"
                         press=".onDelete"
                         ariaDescribedBy="rejectButtonDescription genericButtonDescription"
                 />

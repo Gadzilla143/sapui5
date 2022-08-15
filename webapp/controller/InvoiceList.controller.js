@@ -105,7 +105,6 @@ sap.ui.define([
         })
       });
 
-      // to get access to the controller's model
       this.getView().addDependent(this.oDefaultDialog);
 
       this.oDefaultDialog.open();

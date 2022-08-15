@@ -1,7 +1,9 @@
 <mvc:View
         controllerName="sap.ui.demo.walkthrough.controller.Detail"
         xmlns="sap.m"
-        xmlns:mvc="sap.ui.core.mvc">
+        xmlns:mvc="sap.ui.core.mvc"
+        xmlns:c="sap.ui.core"
+        xmlns:f="sap.ui.layout.form">
     <Page
             title="{i18n>detailPageTitle}"
             showNavButton="true"
@@ -9,44 +11,96 @@
         <ObjectHeader
                 responsive="true"
                 fullScreenOptimized="true"
-                number="{
-				parts: [{path: 'ExtendedPrice'}, {path: 'view>/currency'}],
-				type: 'sap.ui.model.type.Currency',
-			    	formatOptions: {
-			    		showMeasure: false
-			    	}
-			    }"
-                numberUnit="{view>/currency}"
                 intro="{data>/ShipperName}"
                 title="{data>/ProductName}"
         >
-            <attributes>
-                <ObjectAttribute title="{i18n>quantityTitle}" text="{data>/Quantity}"></ObjectAttribute>
-                <ObjectAttribute title="{i18n>dateTitle}" text="{
-					path: 'data>/ShippedDate',
-					type: 'sap.ui.model.type.Date',
-					formatOptions: {
-					  style: 'long',
-					  source: {
-						pattern: 'yyyy-MM-ddTHH:mm:ss'
-					  }
-					}
-				  }"/>
-            </attributes>
         </ObjectHeader>
+        <VBox fitContainer="true">
+        <f:SimpleForm id="SimpleFormDisplay480"
+                      minWidth="1024"
+                      maxContainerCols="2"
+                      editable="false"
+                      layout="ResponsiveGridLayout"
+                      title="{i18n>Id}: {data>/ID}"
+                      labelSpanL="4"
+                      labelSpanM="4"
+                      emptySpanL="0"
+                      emptySpanM="0"
+                      columnsL="2"
+                      columnsM="2">
+        <f:content>
+            <c:Title text="" />
+            <Label text="Name" />
+            <Input
+                value="{data>/ProductName}"
+                editable="{state>/edit}"
+            />
+            <Label text="Supplier" />
+            <Input
+                value="{data>/ShipperName}"
+                editable="{state>/edit}"
+            />
+            <Label text="Price {view>/currency}" />
+            <Input
+                value="{data>/ExtendedPrice}"
+                editable="{state>/edit}"
+            />
+            <c:Title text="" />
+            <Label text="{i18n>quantityTitle}" />
+            <Input
+                value="{data>/Quantity}"
+                editable="{state>/edit}"
+            />
+            <Label text="{i18n>dateTitle}" />
+            <Text text="{
+			    	path: 'data>/ShippedDate',
+			    	type: 'sap.ui.model.type.Date',
+			    	formatOptions: {
+			    	  style: 'long',
+			    	  source: {
+			    		pattern: 'yyyy-MM-ddTHH:mm:ss'
+			    	  }
+			    	}
+			    }" />
+            <Label text="{i18n>invoiceStatusLabel}" />
+            <Input
+                value="{data>/Status}"
+                editable="{state>/edit}"
+            />
+            </f:content>
+            </f:SimpleForm>
+        </VBox>
         <footer>
             <OverflowToolbar>
                 <ToolbarSpacer/>
+                <ToggleButton
+                   text="{i18n>editText}"
+                   enabled="true"
+                   pressed="false"
+                   press=".switchEditMode"
+                   visible="{= !${state>/edit}}"
+                />
                 <Button
-                   text="Edit"
+                   type="Accept"
+                   text="{i18n>saveText}"
+                   press=".switchEditMode"
                    ariaDescribedBy="rejectButtonDescription genericButtonDescription"
+                   visible="{state>/edit}"
                 />
                 <ToolbarSpacer/>
                 <Button
                    type="Reject"
-                   text="Delete"
+                   text="{i18n>deleteText}"
                    press=".onDelete"
                    ariaDescribedBy="rejectButtonDescription genericButtonDescription"
+                   visible="{= !${state>/edit}}"
+                />
+                <Button
+                   type="Reject"
+                   text="{i18n>cancelText}"
+                   press=".onCancel"
+                   ariaDescribedBy="rejectButtonDescription genericButtonDescription"
+                   visible="{state>/edit}"
                 />
                 <ToolbarSpacer/>
             </OverflowToolbar>

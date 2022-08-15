@@ -24,6 +24,10 @@ sap.ui.define([
       });
       this.getView().setModel(oViewModel, "view");
 
+      var state = new JSONModel({
+        edit: false
+      });
+      this.getView().setModel(state, "state");
       var oRouter = this.getOwnerComponent().getRouter();
       oRouter.getRoute("detail").attachPatternMatched(this._onObjectMatched, this);
     },
@@ -47,7 +51,8 @@ sap.ui.define([
           type: ButtonType.Emphasized,
           text: "OK",
           press: function () {
-            this.deleteItem()
+            this.deleteItem();
+            this.onNavBack();
             this.oDefaultDialog.close();
           }.bind(this)
         }),
@@ -63,6 +68,13 @@ sap.ui.define([
       this.oDefaultDialog.open();
     },
 
+    switchEditMode: function () {
+      var state = new JSONModel({
+        edit: !this.getView().getModel("state").oData.edit
+      });
+      this.getView().setModel(state, "state");
+    },
+
     deleteItem: function () {
       var selectedItemId = this.sObjectId;
       var items = this.getOwnerComponent().getModel("invoice").oData;
@@ -75,8 +87,16 @@ sap.ui.define([
 
       var jModel = new sap.ui.model.json.JSONModel();
       jModel.setData(items);
+      this.getOwnerComponent().setModel(jModel, "invoice");
+    },
+
+    onCancel: function () {
+      this.switchEditMode();
+      this.deleteItem();
+      var data = this.getOwnerComponent().getModel("invoice").oData;
+      var jModel = new sap.ui.model.json.JSONModel();
+      jModel.setData({Invoices: data.Invoices.concat(this.data)});
       this.getOwnerComponent().setModel(jModel, "invoice")
-      this.onNavBack();
     },
 
     onNavBack: function () {

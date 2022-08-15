@@ -24,9 +24,7 @@ sap.ui.define([
       });
       this.getView().setModel(oViewModel, "view");
 
-      var state = new JSONModel({
-        edit: false
-      });
+      var state = this.getOwnerComponent().getModel("state");
       this.getView().setModel(state, "state");
       var oRouter = this.getOwnerComponent().getRouter();
       oRouter.getRoute("detail").attachPatternMatched(this._onObjectMatched, this);
@@ -90,13 +88,22 @@ sap.ui.define([
       this.getOwnerComponent().setModel(jModel, "invoice");
     },
 
+    onSave: function () {
+      this.switchEditMode();
+      this.deleteItem();
+      var data = this.getOwnerComponent().getModel("invoice").oData;
+      var jModel = new sap.ui.model.json.JSONModel();
+      jModel.setData({Invoices: data.Invoices.concat(this.data)});
+      this.getOwnerComponent().setModel(jModel, "invoice");
+    },
+
     onCancel: function () {
       this.switchEditMode();
       this.deleteItem();
       var data = this.getOwnerComponent().getModel("invoice").oData;
       var jModel = new sap.ui.model.json.JSONModel();
       jModel.setData({Invoices: data.Invoices.concat(this.data)});
-      this.getOwnerComponent().setModel(jModel, "invoice")
+      this.getOwnerComponent().setModel(jModel, "invoice");
     },
 
     onNavBack: function () {
@@ -110,6 +117,7 @@ sap.ui.define([
         oRouter.navTo("overview", {}, true);
       }
     },
+
     i18: function (type, strArr) {
       var oResourceBundle = this.getView().getModel("i18n").getResourceBundle();
       return oResourceBundle.getText(type, strArr);

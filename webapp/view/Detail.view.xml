@@ -83,7 +83,7 @@
                 <Button
                    type="Accept"
                    text="{i18n>saveText}"
-                   press=".switchEditMode"
+                   press=".onSave"
                    ariaDescribedBy="rejectButtonDescription genericButtonDescription"
                    visible="{state>/edit}"
                 />

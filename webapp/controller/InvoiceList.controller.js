@@ -124,6 +124,29 @@ sap.ui.define([
       this.onRefresh()
     },
 
+    onCreate: function () {
+      var ID = (this._data.Invoices.length + 1).toString();
+      console.log((new Date()).toISOString().substr(0,19))
+      this._data.Invoices.push({
+        "ID": ID,
+        "ProductName": "",
+        "Quantity": "",
+        "ExtendedPrice": "",
+        "ShipperName": "",
+        "ShippedDate": (new Date()).toISOString().substr(0,19),
+        "Status": "New"
+      });
+      var state = new JSONModel({
+        edit: true
+      });
+      this.getOwnerComponent().setModel(state, "state");
+      var oRouter = this.getOwnerComponent().getRouter();
+      oRouter.navTo("detail", {
+        objectId: ID
+      });
+      this.onRefresh();
+    },
+
     onPress: function (oEvent) {
       var oItem = oEvent.getSource();
       var oRouter = this.getOwnerComponent().getRouter();

@@ -21,6 +21,12 @@
                 <Title text="{i18n>invoiceListTitle}"/>
                 <ToolbarSpacer/>
                 <Button
+                        type="Accept"
+                        text="{i18n>createText}"
+                        press=".onCreate"
+                        ariaDescribedBy="rejectButtonDescription genericButtonDescription"
+                />
+                <Button
                         type="Reject"
                         text="{i18n>deleteText}"
                         press=".onDelete"

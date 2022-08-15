@@ -89,7 +89,7 @@
           "target": "overview"
         },
         {
-          "pattern": "detail/{invoicePath}",
+          "pattern": "detail/{objectId}",
           "name": "detail",
           "target": "detail"
         }

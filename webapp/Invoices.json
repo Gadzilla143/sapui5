@@ -7,7 +7,7 @@
       "ExtendedPrice": 87.2,
       "ShipperName": "Fun Inc.",
       "ShippedDate": "2015-04-01T00:00:00",
-      "Status": "A"
+      "Status": "New"
     },
     {
       "ID": "2",
@@ -16,7 +16,7 @@
       "ExtendedPrice": 10,
       "ShipperName": "ACME",
       "ShippedDate": "2015-02-18T00:00:00",
-      "Status": "B"
+      "Status": "In Progress"
     },
     {
       "ID": "3",
@@ -25,7 +25,7 @@
       "ExtendedPrice": 6.85,
       "ShipperName": "ACME",
       "ShippedDate": "2015-03-02T00:00:00",
-      "Status": "B"
+      "Status": "In Progress"
     },
     {
       "ID": "4",
@@ -34,7 +34,7 @@
       "ExtendedPrice": 8.8,
       "ShipperName": "ACME",
       "ShippedDate": "2015-04-12T00:00:00",
-      "Status": "C"
+      "Status": "Done"
     },
     {
       "ID": "5",
@@ -43,7 +43,7 @@
       "ExtendedPrice": 2.71,
       "ShipperName": "Fun Inc.",
       "ShippedDate": "2015-01-27T00:00:00",
-      "Status": "A"
+      "Status": "New"
     }
   ]
 }

@@ -10,19 +10,20 @@
                 responsive="true"
                 fullScreenOptimized="true"
                 number="{
-				parts: [{path: 'invoice>ExtendedPrice'}, {path: 'view>/currency'}],
+				parts: [{path: 'ExtendedPrice'}, {path: 'view>/currency'}],
 				type: 'sap.ui.model.type.Currency',
-				formatOptions: {
-					showMeasure: false
-				}
-			}"
+			    	formatOptions: {
+			    		showMeasure: false
+			    	}
+			    }"
                 numberUnit="{view>/currency}"
-                intro="{invoice>ShipperName}"
-                title="{invoice>ProductName}">
+                intro="{data>/ShipperName}"
+                title="{data>/ProductName}"
+        >
             <attributes>
-                <ObjectAttribute title="{i18n>quantityTitle}" text="{invoice>Quantity}"></ObjectAttribute>
+                <ObjectAttribute title="{i18n>quantityTitle}" text="{data>/Quantity}"></ObjectAttribute>
                 <ObjectAttribute title="{i18n>dateTitle}" text="{
-					path: 'invoice>ShippedDate',
+					path: 'data>/ShippedDate',
 					type: 'sap.ui.model.type.Date',
 					formatOptions: {
 					  style: 'long',
@@ -33,5 +34,22 @@
 				  }"/>
             </attributes>
         </ObjectHeader>
+        <footer>
+            <OverflowToolbar>
+                <ToolbarSpacer/>
+                <Button
+                   text="Edit"
+                   ariaDescribedBy="rejectButtonDescription genericButtonDescription"
+                />
+                <ToolbarSpacer/>
+                <Button
+                   type="Reject"
+                   text="Delete"
+                   press=".onDelete"
+                   ariaDescribedBy="rejectButtonDescription genericButtonDescription"
+                />
+                <ToolbarSpacer/>
+            </OverflowToolbar>
+        </footer>
     </Page>
 </mvc:View>

@@ -11,11 +11,11 @@
             mode="MultiSelect"
             items="{
 			path : '/Invoices',
-			sorter : {
-				path : 'ID',
-				group : false
-			}
-		}">
+		    	sorter : {
+		    		path : 'ID',
+		    		group : false
+		    	}
+		    }">
         <headerToolbar>
             <Toolbar>
                 <Title text="{i18n>invoiceListTitle}"/>

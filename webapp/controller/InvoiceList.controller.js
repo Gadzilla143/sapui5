@@ -30,6 +30,9 @@ sap.ui.define([
       this.getView().setModel(oViewModel, "view");
 
       this.byId('invoiceList').setModel(this.getOwnerComponent().getModel("invoice"));
+
+      var oRouter = this.getOwnerComponent().getRouter();
+      oRouter.attachRouteMatched(this._onObjectMatched, this);
     },
 
     onRefresh: function() {
@@ -37,6 +40,14 @@ sap.ui.define([
       jModel.setData(this._data);
       this.getOwnerComponent().setModel(jModel, "invoice")
       this.byId('invoiceList').setModel(jModel);
+    },
+
+    _onObjectMatched: function () {
+      if (!this._data) {
+        return;
+      }
+      this._data = this.getOwnerComponent().getModel("invoice").oData;
+      this.byId('invoiceList').setModel(this.getOwnerComponent().getModel("invoice"));
     },
 
     onFilterChange: function () {
@@ -118,7 +129,7 @@ sap.ui.define([
       var oItem = oEvent.getSource();
       var oRouter = this.getOwnerComponent().getRouter();
       oRouter.navTo("detail", {
-        invoicePath: window.encodeURIComponent(oItem.getBindingContext().getPath().substr(1))
+        objectId: oItem.getBindingContext().getProperty("ID")
       });
     },
     i18: function (type, strArr) {

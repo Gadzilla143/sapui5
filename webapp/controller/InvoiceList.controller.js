@@ -1,14 +1,13 @@
 sap.ui.define([
   "sap/ui/core/mvc/Controller",
   "sap/ui/model/json/JSONModel",
-  "../model/formatter",
   "sap/ui/model/Filter",
   "../utils/utils",
   "sap/m/Dialog",
   "sap/m/Button",
   "sap/m/library",
   "sap/m/Text"
-], function (Controller, JSONModel, formatter, Filter, Utils, Dialog, Button, mobileLibrary, Text) {
+], function (Controller, JSONModel, Filter, Utils, Dialog, Button, mobileLibrary, Text) {
   "use strict";
 
   // shortcut for sap.m.ButtonType
@@ -18,18 +17,26 @@ sap.ui.define([
   var DialogType = mobileLibrary.DialogType;
 
   return Controller.extend("sap.ui.demo.walkthrough.controller.InvoiceList", {
-
-    formatter: formatter,
-
     onInit: function () {
       this.oDefaultDialog = null;
       this.search = this.byId("slProductName");
       this.statuses = this.byId("slStatus");
       this.supplier = this.byId("slSupplier");
+
+      this._data = this.getOwnerComponent().getModel("invoice").oData;
       var oViewModel = new JSONModel({
         currency: "EUR"
       });
       this.getView().setModel(oViewModel, "view");
+
+      this.byId('invoiceList').setModel(this.getOwnerComponent().getModel("invoice"));
+    },
+
+    onRefresh: function() {
+      var jModel = new sap.ui.model.json.JSONModel();
+      jModel.setData(this._data);
+      this.getOwnerComponent().setModel(jModel, "invoice")
+      this.byId('invoiceList').setModel(jModel);
     },
 
     onFilterChange: function () {
@@ -45,7 +52,7 @@ sap.ui.define([
       }
       if (statuses) {
         statuses.forEach(status => {
-          filters.push(Utils.createFilter("Status", status.getKey()));
+          filters.push(Utils.createFilter("Status", status.getText()));
         })
       }
       if (supplier) {
@@ -62,7 +69,7 @@ sap.ui.define([
       if (!itemsNumber) {
         return;
       }
-      var singleDeleteText = this.i18('invoiceOnDeleteSingle', [selectedItems[0].getBindingContext('invoice').getProperty('ProductName')])
+      var singleDeleteText = this.i18('invoiceOnDeleteSingle', [selectedItems[0].getBindingContext().getProperty('ProductName')])
       var multiDeleteText = this.i18('invoiceOnDeleteMulti', [itemsNumber])
       var dialogText = itemsNumber === 1
         ? singleDeleteText
@@ -98,15 +105,20 @@ sap.ui.define([
       var selectedItems = table.getSelectedItems();
 
       selectedItems.forEach(item => {
-        table.removeItem(item)
+        this._data.Invoices.forEach((row, i) => {
+          if (row.ID === item.getBindingContext().getProperty('ID') ) {
+            this._data.Invoices.splice(i,1);
+          }
+        })
       })
+      this.onRefresh()
     },
 
     onPress: function (oEvent) {
       var oItem = oEvent.getSource();
       var oRouter = this.getOwnerComponent().getRouter();
       oRouter.navTo("detail", {
-        invoicePath: window.encodeURIComponent(oItem.getBindingContext("invoice").getPath().substr(1))
+        invoicePath: window.encodeURIComponent(oItem.getBindingContext().getPath().substr(1))
       });
     },
     i18: function (type, strArr) {

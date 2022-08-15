@@ -10,7 +10,7 @@
             width="auto"
             mode="MultiSelect"
             items="{
-			path : 'invoice>/Invoices',
+			path : '/Invoices',
 			sorter : {
 				path : 'ID',
 				group : false
@@ -83,23 +83,20 @@
                     type="Navigation"
                     press=".onPress">
                 <cells>
-                    <ObjectNumber number="{invoice>Quantity}" emphasized="false"/>
-                    <ObjectIdentifier title="{invoice>ProductName}"/>
-                    <Text text="{
-						path: 'invoice>Status',
-						formatter: '.formatter.statusText'
-					}"/>
-                    <Text text="{invoice>ShipperName}"/>
+                    <ObjectNumber number="{Quantity}" emphasized="false"/>
+                    <ObjectIdentifier title="{ProductName}"/>
+                    <Text text="{Status}"/>
+                    <Text text="{ShipperName}"/>
                     <ObjectNumber
                             number="{
-							parts: [{path: 'invoice>ExtendedPrice'}, {path: 'view>/currency'}],
+							parts: [{path: 'ExtendedPrice'}, {path: 'view>/currency'}],
 							type: 'sap.ui.model.type.Currency',
 							formatOptions: {
 								showMeasure: false
 							}
 						}"
                             unit="{view>/currency}"
-                            state="{= ${invoice>ExtendedPrice} > 50 ? 'Error' : 'Success' }"/>
+                            state="{= ${ExtendedPrice} > 50 ? 'Error' : 'Success' }"/>
                 </cells>
             </ColumnListItem>
         </items>

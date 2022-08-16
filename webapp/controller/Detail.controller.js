@@ -16,6 +16,13 @@ sap.ui.define([
 ], function (Controller, History, MessageToast, JSONModel, Dialog, Button, mobileLibrary, Text, Core, MessagePopover, MessageItem, Message, coreLibrary, Element) {
   "use strict";
 
+  var NameToFieldType = {
+    "Name": "ProductName",
+    "Quantity": "Quantity",
+    "Price": "ExtendedPrice",
+    "Supplier": "ShipperName",
+  }
+
   // shortcut for sap.m.ButtonType
   var ButtonType = mobileLibrary.ButtonType;
 
@@ -32,6 +39,13 @@ sap.ui.define([
         currency: "EUR"
       });
       this.getView().setModel(oViewModel, "view");
+
+      this.prevData = {
+        "ProductName": null,
+        "Quantity": null,
+        "ExtendedPrice": null,
+        "ShipperName": null,
+      }
 
       var oRouter = this.getOwnerComponent().getRouter();
       oRouter.getRoute("detail").attachPatternMatched(this._onObjectMatched, this);
@@ -83,6 +97,13 @@ sap.ui.define([
     },
 
     switchEditMode: function () {
+      if (!this.getView().getModel("state").oData.edit) {
+        var oForm = this.getView().byId("formContainer").getItems()[0].getContent();
+        var inputs = oForm.filter(el => el.getMetadata()._sUIDToken === 'input');
+        inputs.forEach(el => {
+          this.prevData[NameToFieldType[el.getName()]] = el.getValue()
+        })
+      }
       var state = new JSONModel({
         edit: !this.getView().getModel("state").oData.edit
       });
@@ -121,11 +142,12 @@ sap.ui.define([
 
     onCancel: function () {
       this.switchEditMode();
-      this.deleteItem();
-      var data = this.getOwnerComponent().getModel("invoice").oData;
-      var jModel = new sap.ui.model.json.JSONModel();
-      jModel.setData({Invoices: data.Invoices.concat(this.data)});
-      this.getOwnerComponent().setModel(jModel, "invoice");
+      var oForm = this.getView().byId("formContainer").getItems()[0].getContent();
+      var inputs = oForm.filter(el => el.getMetadata()._sUIDToken === 'input');
+      inputs.forEach(el => {
+        el.setValue(this.prevData[NameToFieldType[el.getName()]])
+      })
+      this.hideErrorButton();
     },
 
     onNavBack: function () {

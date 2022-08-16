@@ -6,7 +6,7 @@
         xmlns:f="sap.ui.layout.form">
     <Page
             title="{i18n>detailPageTitle}"
-            showNavButton="true"
+            showNavButton="{= !${state>/edit}}"
             navButtonPress=".onNavBack">
         <ObjectHeader
                 responsive="true"
@@ -15,7 +15,7 @@
                 title="{data>/ProductName}"
         >
         </ObjectHeader>
-        <VBox fitContainer="true">
+        <VBox id="formContainer" fitContainer="true">
         <f:SimpleForm id="SimpleFormDisplay480"
                       minWidth="1024"
                       maxContainerCols="2"
@@ -32,22 +32,28 @@
             <c:Title text="" />
             <Label text="Name" />
             <Input
+                name="Name"
                 value="{data>/ProductName}"
                 editable="{state>/edit}"
             />
             <Label text="Supplier" />
             <Input
+                name="Supplier"
                 value="{data>/ShipperName}"
                 editable="{state>/edit}"
             />
             <Label text="Price {view>/currency}" />
             <Input
+                name="Price"
+                type="Number"
                 value="{data>/ExtendedPrice}"
                 editable="{state>/edit}"
             />
             <c:Title text="" />
             <Label text="{i18n>quantityTitle}" />
             <Input
+                name="Quantity"
+                type="Number"
                 value="{data>/Quantity}"
                 editable="{state>/edit}"
             />
@@ -63,15 +69,20 @@
 			    	}
 			    }" />
             <Label text="{i18n>invoiceStatusLabel}" />
-            <Input
-                value="{data>/Status}"
-                editable="{state>/edit}"
-            />
+            <Text text="{data>/Status}" />
             </f:content>
             </f:SimpleForm>
         </VBox>
         <footer>
             <OverflowToolbar>
+                <Button
+                   id="messagePopoverBtn"
+                   visible="{=!!${message>/}.length}"
+                   icon="sap-icon://error"
+                   type="Negative"
+                   press=".handleMessagePopoverPress"
+                   ariaHasPopup="Dialog"
+                />
                 <ToolbarSpacer/>
                 <ToggleButton
                    text="{i18n>editText}"

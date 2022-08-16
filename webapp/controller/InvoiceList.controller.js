@@ -126,12 +126,11 @@ sap.ui.define([
 
     onCreate: function () {
       var ID = (this._data.Invoices.length + 1).toString();
-      console.log((new Date()).toISOString().substr(0,19))
       this._data.Invoices.push({
         "ID": ID,
         "ProductName": "",
-        "Quantity": "",
-        "ExtendedPrice": "",
+        "Quantity": 0,
+        "ExtendedPrice": 0,
         "ShipperName": "",
         "ShippedDate": (new Date()).toISOString().substr(0,19),
         "Status": "New"
@@ -150,6 +149,10 @@ sap.ui.define([
     onPress: function (oEvent) {
       var oItem = oEvent.getSource();
       var oRouter = this.getOwnerComponent().getRouter();
+      var state = new JSONModel({
+        edit: false
+      });
+      this.getOwnerComponent().setModel(state, "state");
       oRouter.navTo("detail", {
         objectId: oItem.getBindingContext().getProperty("ID")
       });

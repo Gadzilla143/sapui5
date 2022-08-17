@@ -8,6 +8,21 @@
             title="{i18n>detailPageTitle}"
             showNavButton="{= !${state>/edit}}"
             navButtonPress=".onNavBack">
+            <OverflowToolbar visible="{= !${state>/edit}}">
+                <ToolbarSpacer/>
+                <Button
+                        type="Reject"
+                        text="{i18n>deleteText}"
+                        press=".onDelete"
+                        ariaDescribedBy="rejectButtonDescription genericButtonDescription"
+                />
+                <ToggleButton
+                        text="{i18n>editText}"
+                        enabled="true"
+                        pressed="false"
+                        press=".switchEditMode"
+                />
+            </OverflowToolbar>
         <ObjectHeader
                 responsive="true"
                 fullScreenOptimized="true"
@@ -74,7 +89,7 @@
             </f:SimpleForm>
         </VBox>
         <footer>
-            <OverflowToolbar>
+            <OverflowToolbar visible="{state>/edit}">
                 <Button
                    id="messagePopoverBtn"
                    visible="{=!!${message>/}.length}"
@@ -84,34 +99,18 @@
                    ariaHasPopup="Dialog"
                 />
                 <ToolbarSpacer/>
-                <ToggleButton
-                   text="{i18n>editText}"
-                   enabled="true"
-                   pressed="false"
-                   press=".switchEditMode"
-                   visible="{= !${state>/edit}}"
-                />
                 <Button
                    type="Accept"
                    text="{i18n>saveText}"
                    press=".onSave"
                    ariaDescribedBy="rejectButtonDescription genericButtonDescription"
-                   visible="{state>/edit}"
                 />
                 <ToolbarSpacer/>
-                <Button
-                   type="Reject"
-                   text="{i18n>deleteText}"
-                   press=".onDelete"
-                   ariaDescribedBy="rejectButtonDescription genericButtonDescription"
-                   visible="{= !${state>/edit}}"
-                />
                 <Button
                    type="Reject"
                    text="{i18n>cancelText}"
                    press=".onCancel"
                    ariaDescribedBy="rejectButtonDescription genericButtonDescription"
-                   visible="{state>/edit}"
                 />
                 <ToolbarSpacer/>
             </OverflowToolbar>

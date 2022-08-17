@@ -23,13 +23,13 @@
                 <ToolbarSpacer/>
                 <Button
                         type="Accept"
-                        text="{i18n>createText}"
                         press=".onCreate"
+                        icon="sap-icon://create"
                         ariaDescribedBy="rejectButtonDescription genericButtonDescription"
                 />
                 <Button
                         type="Reject"
-                        text="{i18n>deleteText}"
+                        icon="sap-icon://delete"
                         enabled="{view>/selected}"
                         press=".onDelete"
                         ariaDescribedBy="rejectButtonDescription genericButtonDescription"

@@ -36,7 +36,7 @@ sap.ui.define([
     },
 
     onRefresh: function() {
-      var jModel = new sap.ui.model.json.JSONModel();
+      var jModel = new JSONModel();
       jModel.setData(this._data);
       this.getOwnerComponent().setModel(jModel, "invoice")
       this.byId('invoiceList').setModel(jModel);

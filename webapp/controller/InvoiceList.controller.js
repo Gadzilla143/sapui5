@@ -25,7 +25,8 @@ sap.ui.define([
 
       this._data = this.getOwnerComponent().getModel("invoice").oData;
       var oViewModel = new JSONModel({
-        currency: "EUR"
+        currency: "EUR",
+        selected: false,
       });
       this.getView().setModel(oViewModel, "view");
 
@@ -40,6 +41,13 @@ sap.ui.define([
       jModel.setData(this._data);
       this.getOwnerComponent().setModel(jModel, "invoice")
       this.byId('invoiceList').setModel(jModel);
+    },
+
+    onSelection: function() {
+      var table = this.byId("invoiceList");
+      var selectedItems = table.getSelectedItems();
+
+      this.getView().getModel("view").setProperty('/selected', !!selectedItems.length );
     },
 
     _onObjectMatched: function () {

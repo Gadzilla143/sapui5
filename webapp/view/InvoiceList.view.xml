@@ -9,6 +9,7 @@
             class="sapUiResponsiveMargin"
             width="auto"
             mode="MultiSelect"
+            selectionChange=".onSelection"
             items="{
 			path : '/Invoices',
 		    	sorter : {
@@ -29,6 +30,7 @@
                 <Button
                         type="Reject"
                         text="{i18n>deleteText}"
+                        enabled="{view>/selected}"
                         press=".onDelete"
                         ariaDescribedBy="rejectButtonDescription genericButtonDescription"
                 />

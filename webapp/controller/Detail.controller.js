@@ -103,6 +103,11 @@ sap.ui.define([
         inputs.forEach(el => {
           this.prevData[NameToFieldType[el.getName()]] = el.getValue()
         })
+      } else {
+        if (this.getOwnerComponent().getModel("state").oData.new) {
+          this.deleteItem();
+          this.onNavBack();
+        }
       }
       var state = new JSONModel({
         edit: !this.getView().getModel("state").oData.edit

@@ -136,7 +136,8 @@ sap.ui.define([
         "Status": "New"
       });
       var state = new JSONModel({
-        edit: true
+        edit: true,
+        new: true,
       });
       this.getOwnerComponent().setModel(state, "state");
       var oRouter = this.getOwnerComponent().getRouter();

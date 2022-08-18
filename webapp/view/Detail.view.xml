@@ -32,17 +32,13 @@
         </ObjectHeader>
         <VBox id="formContainer" fitContainer="true">
         <f:SimpleForm id="SimpleFormDisplay480"
-                      minWidth="1024"
-                      maxContainerCols="2"
-                      editable="false"
-                      layout="ResponsiveGridLayout"
-                      title="{i18n>Id}: {data>/ID}"
-                      labelSpanL="4"
-                      labelSpanM="4"
-                      emptySpanL="0"
-                      emptySpanM="0"
+                      editable="true"
+                      columnsM="2"
                       columnsL="2"
-                      columnsM="2">
+                      columnsXL="2"
+                      layout="ColumnLayout"
+                      title="{i18n>Id}: {data>/ID}"
+        >
         <f:content>
             <c:Title text="" />
             <Label text="Name" />

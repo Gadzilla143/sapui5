@@ -24,6 +24,7 @@
                 <Button
                         type="Accept"
                         press=".onCreate"
+                        tooltip="{i18n>createText}"
                         icon="sap-icon://create"
                         ariaDescribedBy="rejectButtonDescription genericButtonDescription"
                 />
@@ -31,6 +32,7 @@
                         type="Reject"
                         icon="sap-icon://delete"
                         enabled="{view>/selected}"
+                        tooltip="{i18n>deleteText}"
                         press=".onDelete"
                         ariaDescribedBy="rejectButtonDescription genericButtonDescription"
                 />

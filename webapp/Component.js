@@ -18,11 +18,6 @@ sap.ui.define([
       var oDeviceModel = new JSONModel(Device);
       oDeviceModel.setDefaultBindingMode("OneWay");
 
-      var state = new JSONModel({
-        edit: false
-      });
-      this.setModel(state, "state");
-
       this.setModel(oDeviceModel, "device");
 
       this.getRouter().initialize();

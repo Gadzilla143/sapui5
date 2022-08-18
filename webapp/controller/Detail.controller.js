@@ -61,6 +61,12 @@ sap.ui.define([
       var state = this.getOwnerComponent().getModel("state");
       this.getView().setModel(state, "state");
       this.hideErrorButton();
+
+      var oViewModel = new JSONModel({
+        edit: oEvent.getParameter("arguments").mode !== "view",
+        new: oEvent.getParameter("arguments").mode === "create"
+      });
+      this.getView().setModel(oViewModel, "state");
       this.sObjectId = oEvent.getParameter("arguments").objectId;
       this.data = this.getOwnerComponent().getModel("invoice").oData.Invoices.filter(item => item.ID === this.sObjectId)[0];
       var jModel = new sap.ui.model.json.JSONModel();
@@ -104,15 +110,22 @@ sap.ui.define([
           this.prevData[NameToFieldType[el.getName()]] = el.getValue()
         })
       } else {
-        if (this.getOwnerComponent().getModel("state").oData.new) {
+        if (this.getView().getModel("state").oData.new) {
           this.deleteItem();
           this.onNavBack();
+          return;
         }
       }
-      var state = new JSONModel({
-        edit: !this.getView().getModel("state").oData.edit
+      this.switchEditModeUrl();
+    },
+
+    switchEditModeUrl: function () {
+      var oRouter = this.getOwnerComponent().getRouter();
+      var bEditMode = this.getView().getModel("state").oData.edit;
+      oRouter.navTo("detail", {
+        objectId: this.sObjectId,
+        mode: bEditMode ? "view" : "edit",
       });
-      this.getView().setModel(state, "state");
     },
 
     deleteItem: function () {
@@ -156,15 +169,8 @@ sap.ui.define([
     },
 
     onNavBack: function () {
-      var oHistory = History.getInstance();
-      var sPreviousHash = oHistory.getPreviousHash();
-
-      if (sPreviousHash !== undefined) {
-        window.history.go(-1);
-      } else {
-        var oRouter = this.getOwnerComponent().getRouter();
-        oRouter.navTo("overview", {}, true);
-      }
+      var oRouter = this.getOwnerComponent().getRouter();
+      oRouter.navTo("overview", {}, true);
     },
 
     i18: function (type, strArr) {

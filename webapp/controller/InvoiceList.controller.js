@@ -133,7 +133,7 @@ sap.ui.define([
     },
 
     onCreate: function () {
-      var ID = (this._data.Invoices.length + 1).toString();
+      var ID = (new Date()).toISOString();
       this._data.Invoices.push({
         "ID": ID,
         "ProductName": "",
@@ -144,13 +144,13 @@ sap.ui.define([
         "Status": "New"
       });
       var state = new JSONModel({
-        edit: true,
         new: true,
       });
       this.getOwnerComponent().setModel(state, "state");
       var oRouter = this.getOwnerComponent().getRouter();
       oRouter.navTo("detail", {
-        objectId: ID
+        objectId: ID,
+        mode: "create",
       });
       this.onRefresh();
     },
@@ -158,12 +158,9 @@ sap.ui.define([
     onPress: function (oEvent) {
       var oItem = oEvent.getSource();
       var oRouter = this.getOwnerComponent().getRouter();
-      var state = new JSONModel({
-        edit: false
-      });
-      this.getOwnerComponent().setModel(state, "state");
       oRouter.navTo("detail", {
-        objectId: oItem.getBindingContext().getProperty("ID")
+        objectId: oItem.getBindingContext().getProperty("ID"),
+        mode: "view",
       });
     },
     i18: function (type, strArr) {

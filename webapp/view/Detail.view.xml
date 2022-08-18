@@ -8,28 +8,24 @@
             title="{i18n>detailPageTitle}"
             showNavButton="{= !${state>/edit}}"
             navButtonPress=".onNavBack">
-            <OverflowToolbar visible="{= !${state>/edit}}">
-                <ToolbarSpacer/>
-                <Button
-                        type="Reject"
-                        text="{i18n>deleteText}"
-                        press=".onDelete"
-                        ariaDescribedBy="rejectButtonDescription genericButtonDescription"
-                />
-                <ToggleButton
-                        text="{i18n>editText}"
-                        enabled="true"
-                        pressed="false"
-                        press=".switchEditMode"
-                />
-            </OverflowToolbar>
-        <ObjectHeader
-                responsive="true"
-                fullScreenOptimized="true"
-                intro="{data>/ShipperName}"
-                title="{data>/ProductName}"
-        >
-        </ObjectHeader>
+        <OverflowToolbar  class="overflow-paddings" height="70px" visible="{= !${state>/edit}}">
+            <Title
+                text="{data>/ProductName}"
+            />
+            <ToolbarSpacer/>
+            <Button
+                    type="Reject"
+                    tooltip="{i18n>deleteText}"
+                    icon="sap-icon://delete"
+                    press=".onDelete"
+                    ariaDescribedBy="rejectButtonDescription genericButtonDescription"
+            />
+            <Button
+                    text="{i18n>editText}"
+                    enabled="true"
+                    press=".switchEditMode"
+            />
+        </OverflowToolbar>
         <VBox id="formContainer" fitContainer="true">
         <f:SimpleForm id="SimpleFormDisplay480"
                       editable="true"

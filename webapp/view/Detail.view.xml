@@ -79,6 +79,52 @@
             <Text text="{data>/Status}" />
             </f:content>
             </f:SimpleForm>
+            <Table
+                id="consumerList"
+                class="sapUiResponsiveMargin"
+                width="auto"
+                mode="{= ${state>/edit} ? 'MultiSelect' : 'None' }"
+                selectionChange=".onSelection"
+                items="{
+			    path : '/Consumers',
+		        	sorter : {
+		        		path : 'ID',
+		        		group : false
+		        	}
+		        }"
+            >
+                <headerToolbar>
+                    <Toolbar>
+                        <Title text="{i18n>consumersTitle}"/>
+                        <ToolbarSpacer/>
+                        <Button
+                            type="Reject"
+                            icon="sap-icon://delete"
+                            visible="{state>/edit}"
+                            enabled="{view>/selected}"
+                            tooltip="{i18n>deleteText}"
+                            press=".onDeleteCustomer"
+                            ariaDescribedBy="rejectButtonDescription genericButtonDescription"
+                        />
+                    </Toolbar>
+                </headerToolbar>
+                <columns>
+                    <Column>
+                        <Text text="{i18n>columnName}"/>
+                    </Column>
+                    <Column>
+                        <Text text="{i18n>columnStatus}"/>
+                    </Column>
+                </columns>
+                <items>
+                    <ColumnListItem>
+                        <cells>
+                            <ObjectIdentifier title="{Name}"/>
+                            <Text text="{Status}"/>
+                        </cells>
+                    </ColumnListItem>
+                </items>
+            </Table>
         </VBox>
         <footer>
             <OverflowToolbar visible="{state>/edit}">

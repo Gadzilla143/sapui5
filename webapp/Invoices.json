@@ -7,7 +7,21 @@
       "ExtendedPrice": 87.2,
       "ShipperName": "Fun Inc.",
       "ShippedDate": "2015-04-01T00:00:00",
-      "Status": "New"
+      "Status": "New",
+      "Consumers": [
+        {
+          "ID": "1",
+          "Name": "John",
+          "Date": "2015-04-01T00:00:00",
+          "Status": "New"
+        },
+        {
+          "ID": "2",
+          "Name": "Austen",
+          "Date": "2015-02-18T00:00:00",
+          "Status": "Old"
+        }
+      ]
     },
     {
       "ID": "2",
@@ -16,7 +30,21 @@
       "ExtendedPrice": 10,
       "ShipperName": "ACME",
       "ShippedDate": "2015-02-18T00:00:00",
-      "Status": "In Progress"
+      "Status": "In Progress",
+      "Consumers": [
+        {
+          "ID": "3",
+          "Name": "Raymond",
+          "Date": "2015-03-02T00:00:00",
+          "Status": "Old"
+        },
+        {
+          "ID": "4",
+          "Name": "Gustavo",
+          "Date": "2015-04-12T00:00:00",
+          "Status": "Old"
+        }
+      ]
     },
     {
       "ID": "3",
@@ -25,7 +53,21 @@
       "ExtendedPrice": 6.85,
       "ShipperName": "ACME",
       "ShippedDate": "2015-03-02T00:00:00",
-      "Status": "In Progress"
+      "Status": "In Progress",
+      "Consumers": [
+        {
+          "ID": "1",
+          "Name": "Sarah",
+          "Date": "2015-01-27T00:00:00",
+          "Status": "New"
+        },
+        {
+          "ID": "2",
+          "Name": "John",
+          "Date": "2015-01-27T00:00:00",
+          "Status": "New"
+        }
+      ]
     },
     {
       "ID": "4",
@@ -34,7 +76,21 @@
       "ExtendedPrice": 8.8,
       "ShipperName": "ACME",
       "ShippedDate": "2015-04-12T00:00:00",
-      "Status": "Done"
+      "Status": "Done",
+      "Consumers": [
+        {
+          "ID": "3",
+          "Name": "Raymond",
+          "Date": "2015-03-02T00:00:00",
+          "Status": "Old"
+        },
+        {
+          "ID": "4",
+          "Name": "Gustavo",
+          "Date": "2015-04-12T00:00:00",
+          "Status": "Old"
+        }
+      ]
     },
     {
       "ID": "5",
@@ -43,7 +99,21 @@
       "ExtendedPrice": 2.71,
       "ShipperName": "Fun Inc.",
       "ShippedDate": "2015-01-27T00:00:00",
-      "Status": "New"
+      "Status": "New",
+      "Consumers": [
+        {
+          "ID": "1",
+          "Name": "John",
+          "Date": "2015-04-01T00:00:00",
+          "Status": "New"
+        },
+        {
+          "ID": "2",
+          "Name": "Austen",
+          "Date": "2015-02-18T00:00:00",
+          "Status": "Old"
+        }
+      ]
     }
   ]
 }

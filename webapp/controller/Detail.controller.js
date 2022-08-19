@@ -36,9 +36,11 @@ sap.ui.define([
 
     onInit: function () {
       var oViewModel = new JSONModel({
-        currency: "EUR"
+        currency: "EUR",
+        selected: false,
       });
       this.getView().setModel(oViewModel, "view");
+      this.Consumers = null;
 
       this.prevData = {
         "ProductName": null,
@@ -58,8 +60,6 @@ sap.ui.define([
     },
 
     _onObjectMatched: function (oEvent) {
-      var state = this.getOwnerComponent().getModel("state");
-      this.getView().setModel(state, "state");
       this.hideErrorButton();
 
       var oViewModel = new JSONModel({
@@ -69,10 +69,71 @@ sap.ui.define([
       this.getView().setModel(oViewModel, "state");
       this.sObjectId = oEvent.getParameter("arguments").objectId;
       this.data = this.getOwnerComponent().getModel("invoice").oData.Invoices.filter(item => item.ID === this.sObjectId)[0];
+      var oConsumers = new JSONModel({
+        "Consumers": this.data.Consumers
+      });
+      this.byId('consumerList').setModel(oConsumers);
       var jModel = new sap.ui.model.json.JSONModel();
       jModel.setData(this.data);
 
       this.getView().setModel(jModel, "data");
+    },
+
+    onSelection: function() {
+      var table = this.byId("consumerList");
+      var selectedItems = table.getSelectedItems();
+      this.getView().getModel("view").setProperty('/selected', !!selectedItems.length );
+    },
+
+    onDeleteCustomer: function () {
+      var table = this.byId("consumerList");
+      var selectedItems = table.getSelectedItems();
+      var itemsNumber = selectedItems.length;
+      if (!itemsNumber) {
+        return;
+      }
+      var singleDeleteText = this.i18('invoiceOnDeleteSingle', [selectedItems[0].getBindingContext().getProperty('Name')])
+      var multiDeleteText = this.i18('invoiceOnDeleteMulti', [itemsNumber])
+      var dialogText = itemsNumber === 1
+        ? singleDeleteText
+        : multiDeleteText
+      this.oDefaultDialog = new Dialog({
+        title: "Deleting",
+        content: new Text({ text: dialogText }),
+        type: DialogType.Message,
+        beginButton: new Button({
+          type: ButtonType.Emphasized,
+          text: "OK",
+          press: function () {
+            this.deleteItems();
+            this.oDefaultDialog.close();
+          }.bind(this)
+        }),
+        endButton: new Button({
+          text: "Close",
+          press: function () {
+            this.oDefaultDialog.close();
+          }.bind(this)
+        })
+      });
+      this.getView().addDependent(this.oDefaultDialog);
+      this.oDefaultDialog.open();
+    },
+
+    deleteItems: function () {
+      var table = this.byId("consumerList");
+      var selectedItems = table.getSelectedItems();
+      var selectedIds = selectedItems.map(item => item.getBindingContext().getProperty('ID'));
+
+      selectedIds.forEach(id => {
+        this.data.Consumers.forEach((row, i) => {
+          if (row.ID === id) {
+            this.data.Consumers.splice(i,1);
+          }
+        })
+      })
+
+      this.byId('consumerList').getModel().setProperty("/Consumers", this.data.Consumers);
     },
 
     onDelete: function () {
@@ -109,6 +170,7 @@ sap.ui.define([
         inputs.forEach(el => {
           this.prevData[NameToFieldType[el.getName()]] = el.getValue()
         })
+        this.Consumers = [...this.byId("consumerList").getModel().oData.Consumers];
       } else {
         if (this.getView().getModel("state").oData.new) {
           this.deleteItem();
@@ -165,6 +227,7 @@ sap.ui.define([
       inputs.forEach(el => {
         el.setValue(this.prevData[NameToFieldType[el.getName()]])
       })
+      this.data.Consumers = this.Consumers;
       this.hideErrorButton();
     },
 

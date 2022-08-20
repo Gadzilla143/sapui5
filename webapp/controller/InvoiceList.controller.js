@@ -1,13 +1,12 @@
 sap.ui.define([
-  "sap/ui/core/mvc/Controller",
+  "./Base.controller",
   "sap/ui/model/json/JSONModel",
   "sap/ui/model/Filter",
-  "../utils/utils",
   "sap/m/Dialog",
   "sap/m/Button",
   "sap/m/library",
   "sap/m/Text"
-], function (Controller, JSONModel, Filter, Utils, Dialog, Button, mobileLibrary, Text) {
+], function (BaseController, JSONModel, Filter, Dialog, Button, mobileLibrary, Text) {
   "use strict";
 
   // shortcut for sap.m.ButtonType
@@ -16,7 +15,7 @@ sap.ui.define([
   // shortcut for sap.m.DialogType
   var DialogType = mobileLibrary.DialogType;
 
-  return Controller.extend("sap.ui.demo.walkthrough.controller.InvoiceList", {
+  return BaseController.extend("sap.ui.demo.walkthrough.controller.InvoiceList", {
     onInit: function () {
       this.oDefaultDialog = null;
       this.search = this.byId("slProductName");
@@ -34,13 +33,6 @@ sap.ui.define([
 
       var oRouter = this.getOwnerComponent().getRouter();
       oRouter.attachRouteMatched(this._onObjectMatched, this);
-    },
-
-    onRefresh: function() {
-      var jModel = new JSONModel();
-      jModel.setData(this._data);
-      this.getOwnerComponent().setModel(jModel, "invoice")
-      this.byId('invoiceList').setModel(jModel);
     },
 
     onSelection: function() {
@@ -67,15 +59,15 @@ sap.ui.define([
       var supplier = this.supplier.getValue();
 
       if (search) {
-        filters.push(Utils.createFilter("ProductName", search));
+        filters.push(this.createFilter("ProductName", search));
       }
       if (statuses) {
         statuses.forEach(status => {
-          filters.push(Utils.createFilter("Status", status.getText()));
+          filters.push(this.createFilter("Status", status.getText()));
         })
       }
       if (supplier) {
-        filters.push(Utils.createFilter("ShipperName", supplier));
+        filters.push(this.createFilter("ShipperName", supplier));
       }
 
       oBinding.filter(filters);
@@ -121,15 +113,9 @@ sap.ui.define([
     deleteItems: function() {
       var table = this.byId("invoiceList");
       var selectedItems = table.getSelectedItems();
-
-      selectedItems.forEach(item => {
-        this._data.Invoices.forEach((row, i) => {
-          if (row.ID === item.getBindingContext().getProperty('ID') ) {
-            this._data.Invoices.splice(i,1);
-          }
-        })
-      })
-      this.onRefresh()
+      this.removeSelectedItems(this._data.Invoices, selectedItems);
+      this.getOwnerComponent().getModel("invoice").setProperty("/Invoices", this._data.Invoices);
+      table.removeSelections(true);
     },
 
     onCreate: function () {
@@ -152,7 +138,6 @@ sap.ui.define([
         objectId: ID,
         mode: "create",
       });
-      this.onRefresh();
     },
 
     onPress: function (oEvent) {
@@ -162,10 +147,6 @@ sap.ui.define([
         objectId: oItem.getBindingContext().getProperty("ID"),
         mode: "view",
       });
-    },
-    i18: function (type, strArr) {
-      var oResourceBundle = this.getView().getModel("i18n").getResourceBundle();
-      return oResourceBundle.getText(type, strArr);
     }
   });
 

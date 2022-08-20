@@ -54,19 +54,19 @@ sap.ui.define([
     _onObjectMatched: function (oEvent) {
       this.hideErrorButton();
 
-      var oViewModel = new JSONModel({
+      var stateModel = new JSONModel({
         edit: oEvent.getParameter("arguments").mode !== "view",
         new: oEvent.getParameter("arguments").mode === "create"
       });
-      this.getView().setModel(oViewModel, "state");
+
+      this.getView().setModel(stateModel, "state");
       this.sObjectId = oEvent.getParameter("arguments").objectId;
       this.data = this.getOwnerComponent().getModel("invoice").oData.Invoices.filter(item => item.ID === this.sObjectId)[0];
       var oConsumers = new JSONModel({
         "Consumers": this.data.Consumers
       });
       this.byId('consumerList').setModel(oConsumers);
-      var jModel = new sap.ui.model.json.JSONModel();
-      jModel.setData(this.data);
+      var jModel = new JSONModel(this.data);
 
       this.getView().setModel(jModel, "data");
     },
@@ -191,10 +191,8 @@ sap.ui.define([
       this.hideErrorButton();
       this.switchEditMode();
       this.deleteItem();
-      var data = this.getOwnerComponent().getModel("invoice").oData;
-      var jModel = new sap.ui.model.json.JSONModel();
-      jModel.setData({Invoices: data.Invoices.concat(this.data)});
-      this.getOwnerComponent().setModel(jModel, "invoice");
+      var { Invoices } = this.getOwnerComponent().getModel("invoice").oData;
+      this.getOwnerComponent().getModel("invoice").setProperty('/Invoices', Invoices.concat(this.data));
     },
 
     onCancel: function () {

@@ -129,10 +129,6 @@ sap.ui.define([
         "ShippedDate": (new Date()).toISOString().substr(0,19),
         "Status": "New"
       });
-      var state = new JSONModel({
-        new: true,
-      });
-      this.getOwnerComponent().setModel(state, "state");
       var oRouter = this.getOwnerComponent().getRouter();
       oRouter.navTo("detail", {
         objectId: ID,

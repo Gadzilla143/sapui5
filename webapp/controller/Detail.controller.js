@@ -54,21 +54,21 @@ sap.ui.define([
     _onObjectMatched: function (oEvent) {
       this.hideErrorButton();
 
-      var stateModel = new JSONModel({
+      var oStateModel = new JSONModel({
         edit: oEvent.getParameter("arguments").mode !== "view",
         new: oEvent.getParameter("arguments").mode === "create"
       });
 
-      this.getView().setModel(stateModel, "state");
+      this.getView().setModel(oStateModel, "state");
       this.sObjectId = oEvent.getParameter("arguments").objectId;
       this.data = this.getOwnerComponent().getModel("invoice").oData.Invoices.filter(item => item.ID === this.sObjectId)[0];
       var oConsumers = new JSONModel({
         "Consumers": this.data.Consumers
       });
       this.byId('consumerList').setModel(oConsumers);
-      var jModel = new JSONModel(this.data);
+      var oModel = new JSONModel(this.data);
 
-      this.getView().setModel(jModel, "data");
+      this.getView().setModel(oModel, "data");
     },
 
     onSelection: function() {

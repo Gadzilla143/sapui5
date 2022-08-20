@@ -1,19 +1,8 @@
 sap.ui.define([
   "./Base.controller",
   "sap/ui/model/json/JSONModel",
-  "sap/ui/model/Filter",
-  "sap/m/Dialog",
-  "sap/m/Button",
-  "sap/m/library",
-  "sap/m/Text"
-], function (BaseController, JSONModel, Filter, Dialog, Button, mobileLibrary, Text) {
+], function (BaseController, JSONModel) {
   "use strict";
-
-  // shortcut for sap.m.ButtonType
-  var ButtonType = mobileLibrary.ButtonType;
-
-  // shortcut for sap.m.DialogType
-  var DialogType = mobileLibrary.DialogType;
 
   return BaseController.extend("sap.ui.demo.walkthrough.controller.InvoiceList", {
     onInit: function () {
@@ -85,29 +74,15 @@ sap.ui.define([
       var dialogText = itemsNumber === 1
         ? singleDeleteText
         : multiDeleteText
-      this.oDefaultDialog = new Dialog({
-        title: "Deleting",
-        content: new Text({ text: dialogText }),
-        type: DialogType.Message,
-        beginButton: new Button({
-          type: ButtonType.Emphasized,
-          text: "OK",
-          press: function () {
-            this.deleteItems()
-            this.oDefaultDialog.close();
-          }.bind(this)
-        }),
-        endButton: new Button({
-          text: "Close",
-          press: function () {
-            this.oDefaultDialog.close();
-          }.bind(this)
-        })
+
+      var onDelete = () => {
+        this.deleteItems()
+      };
+
+      this.createDeleteModal({
+        dialogText,
+        onDelete
       });
-
-      this.getView().addDependent(this.oDefaultDialog);
-
-      this.oDefaultDialog.open();
     },
 
     deleteItems: function() {
@@ -145,5 +120,4 @@ sap.ui.define([
       });
     }
   });
-
 });

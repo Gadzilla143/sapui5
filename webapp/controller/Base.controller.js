@@ -6,11 +6,21 @@ sap.ui.define([
   'sap/m/MessageItem',
   'sap/ui/core/message/Message',
   'sap/ui/core/library',
-], function (Controller, Filter, FilterOperator, MessagePopover, MessageItem, Message, coreLibrary) {
+  "sap/m/Dialog",
+  "sap/m/Button",
+  "sap/m/Text",
+  "sap/m/library",
+], function (Controller, Filter, FilterOperator, MessagePopover, MessageItem, Message, coreLibrary, Dialog, Button, Text, mobileLibrary, ) {
   "use strict";
 
   // shortcut for sap.ui.core.MessageType
   var MessageType = coreLibrary.MessageType;
+
+  // shortcut for sap.m.DialogType
+  var DialogType = mobileLibrary.DialogType;
+
+  // shortcut for sap.m.ButtonType
+  var ButtonType = mobileLibrary.ButtonType;
 
   return Controller.extend("sap.ui.demo.walkthrough.controller.Base", {
 
@@ -27,6 +37,31 @@ sap.ui.define([
           }
         })
       })
+    },
+
+    createDeleteModal: function ({dialogText, onDelete, onCancel}) {
+      this.oDefaultDialog = new Dialog({
+        title: "Deleting",
+        content: new Text({ text: dialogText }),
+        type: DialogType.Message,
+        beginButton: new Button({
+          type: ButtonType.Emphasized,
+          text: "OK",
+          press: function () {
+            onDelete && onDelete();
+            this.oDefaultDialog.close();
+          }.bind(this)
+        }),
+        endButton: new Button({
+          text: "Close",
+          press: function () {
+            onCancel && onCancel();
+            this.oDefaultDialog.close();
+          }.bind(this)
+        })
+      });
+      this.getView().addDependent(this.oDefaultDialog);
+      this.oDefaultDialog.open();
     },
 
     i18: function (type, strArr) {
@@ -132,5 +167,4 @@ sap.ui.define([
       }.bind(this), 100);
     },
   });
-
 });

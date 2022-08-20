@@ -3,12 +3,8 @@ sap.ui.define([
   "sap/ui/core/routing/History",
   "sap/m/MessageToast",
   "sap/ui/model/json/JSONModel",
-  "sap/m/Dialog",
-  "sap/m/Button",
-  "sap/m/library",
-  "sap/m/Text",
   'sap/ui/core/Core',
-], function (BaseController, History, MessageToast, JSONModel, Dialog, Button, mobileLibrary, Text, Core) {
+], function (BaseController, History, MessageToast, JSONModel, Core) {
   "use strict";
 
   var NameToFieldType = {
@@ -17,12 +13,6 @@ sap.ui.define([
     "Price": "ExtendedPrice",
     "Supplier": "ShipperName",
   }
-
-  // shortcut for sap.m.ButtonType
-  var ButtonType = mobileLibrary.ButtonType;
-
-  // shortcut for sap.m.DialogType
-  var DialogType = mobileLibrary.DialogType;
 
   return BaseController.extend("sap.ui.demo.walkthrough.controller.Detail", {
 
@@ -89,27 +79,15 @@ sap.ui.define([
       var dialogText = itemsNumber === 1
         ? singleDeleteText
         : multiDeleteText
-      this.oDefaultDialog = new Dialog({
-        title: "Deleting",
-        content: new Text({ text: dialogText }),
-        type: DialogType.Message,
-        beginButton: new Button({
-          type: ButtonType.Emphasized,
-          text: "OK",
-          press: function () {
-            this.deleteItems();
-            this.oDefaultDialog.close();
-          }.bind(this)
-        }),
-        endButton: new Button({
-          text: "Close",
-          press: function () {
-            this.oDefaultDialog.close();
-          }.bind(this)
-        })
-      });
-      this.getView().addDependent(this.oDefaultDialog);
-      this.oDefaultDialog.open();
+
+      var onDelete = () => {
+        this.deleteItems();
+      }
+
+      this.createDeleteModal({
+        dialogText,
+        onDelete
+      })
     },
 
     deleteItems: function () {
@@ -123,29 +101,16 @@ sap.ui.define([
 
     onDelete: function () {
       var dialogText = this.i18('invoiceOnDeleteSingle', [this.data.ProductName]);
-      this.oDefaultDialog = new Dialog({
-        title: "Deleting",
-        content: new Text({ text: dialogText }),
-        type: DialogType.Message,
-        beginButton: new Button({
-          type: ButtonType.Emphasized,
-          text: "OK",
-          press: function () {
-            this.deleteItem();
-            this.onNavBack();
-            this.oDefaultDialog.close();
-          }.bind(this)
-        }),
-        endButton: new Button({
-          text: "Close",
-          press: function () {
-            this.oDefaultDialog.close();
-          }.bind(this)
-        })
-      });
 
-      this.getView().addDependent(this.oDefaultDialog);
-      this.oDefaultDialog.open();
+      var onDelete = () => {
+        this.deleteItem();
+        this.onNavBack();
+      };
+
+      this.createDeleteModal({
+        dialogText,
+        onDelete
+      });
     },
 
     switchEditMode: function () {

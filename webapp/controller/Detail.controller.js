@@ -46,7 +46,7 @@ sap.ui.define([
 
       this.getView().setModel(oStateModel, "state");
       this.sObjectId = oEvent.getParameter("arguments").objectId;
-      if (!this.data) {
+      if (!this.data || this.data.ID !== this.sObjectId) {
         this.data = this.getOwnerComponent().getModel("invoice").oData.Invoices.filter(item => item.ID === this.sObjectId)[0];
       }
       var oConsumers = new JSONModel({

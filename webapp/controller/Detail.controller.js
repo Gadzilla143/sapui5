@@ -133,6 +133,17 @@ sap.ui.define([
       });
     },
 
+    onInputChange: function () {
+      this._MessageManager.removeAllMessages();
+      this._generateInvalidUserInput();
+      if (!this.getView().getModel("message").oData.length) {
+        this.oMP.close();
+        this.hideErrorButton();
+      } else {
+        this.oMP.open();
+      }
+    },
+
     deleteItem: function () {
       var selectedItemId = this.sObjectId;
       var items = this.getOwnerComponent().getModel("invoice").oData;
@@ -141,8 +152,6 @@ sap.ui.define([
     },
 
     onSave: function () {
-      this._MessageManager.removeAllMessages();
-      this._generateInvalidUserInput();
       if (this.getView().getModel("message").oData.length) {
         return;
       }

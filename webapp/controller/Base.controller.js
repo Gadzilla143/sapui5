@@ -141,8 +141,6 @@ sap.ui.define([
       var oButton = this.getView().byId("messagePopoverBtn");
       var oForm = this.getView().byId("formContainer").getItems()[0].getContent();
       var inputs = oForm.filter(el => el.getMetadata()._sUIDToken === 'input');
-
-
       oButton.setVisible(true);
 
       inputs.forEach(el => {

@@ -24,12 +24,7 @@ sap.ui.define([
       this.getView().setModel(oViewModel, "view");
       this.Consumers = null;
 
-      this.prevData = {
-        "ProductName": null,
-        "Quantity": null,
-        "ExtendedPrice": null,
-        "ShipperName": null,
-      }
+      this.prevData = null;
 
       var oRouter = this.getOwnerComponent().getRouter();
       oRouter.getRoute("detail").attachPatternMatched(this._onObjectMatched, this);
@@ -51,7 +46,9 @@ sap.ui.define([
 
       this.getView().setModel(oStateModel, "state");
       this.sObjectId = oEvent.getParameter("arguments").objectId;
-      this.data = this.getOwnerComponent().getModel("invoice").oData.Invoices.filter(item => item.ID === this.sObjectId)[0];
+      if (!this.data) {
+        this.data = this.getOwnerComponent().getModel("invoice").oData.Invoices.filter(item => item.ID === this.sObjectId)[0];
+      }
       var oConsumers = new JSONModel({
         "Consumers": this.data.Consumers
       });
@@ -115,11 +112,7 @@ sap.ui.define([
 
     switchEditMode: function () {
       if (!this.getView().getModel("state").oData.edit) {
-        var oForm = this.getView().byId("formContainer").getItems()[0].getContent();
-        var inputs = oForm.filter(el => el.getMetadata()._sUIDToken === 'input');
-        inputs.forEach(el => {
-          this.prevData[NameToFieldType[el.getName()]] = el.getValue()
-        })
+        this.prevData = Object.assign({}, this.data);
         this.Consumers = [...this.byId("consumerList").getModel().oData.Consumers];
       } else {
         if (this.getView().getModel("state").oData.new) {
@@ -153,7 +146,7 @@ sap.ui.define([
       if (this.getView().getModel("message").oData.length) {
         return;
       }
-      this.hideErrorButton();
+      this.prevData = null;
       this.switchEditMode();
       this.deleteItem();
       var { Invoices } = this.getOwnerComponent().getModel("invoice").oData;
@@ -162,13 +155,9 @@ sap.ui.define([
 
     onCancel: function () {
       this.switchEditMode();
-      var oForm = this.getView().byId("formContainer").getItems()[0].getContent();
-      var inputs = oForm.filter(el => el.getMetadata()._sUIDToken === 'input');
-      inputs.forEach(el => {
-        el.setValue(this.prevData[NameToFieldType[el.getName()]])
-      })
+      this.data = this.prevData;
+      this.getView().setModel(new JSONModel(this.prevData), "data");
       this.data.Consumers = this.Consumers;
-      this.hideErrorButton();
     },
 
     onNavBack: function () {

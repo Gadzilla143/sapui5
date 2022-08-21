@@ -35,7 +35,6 @@ sap.ui.define([
       if (!this._data) {
         return;
       }
-      this._data = this.getOwnerComponent().getModel("invoice").oData;
       this.byId('invoiceList').setModel(this.getOwnerComponent().getModel("invoice"));
     },
 

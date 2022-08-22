@@ -147,14 +147,12 @@
                    press=".onSave"
                    ariaDescribedBy="rejectButtonDescription genericButtonDescription"
                 />
-                <ToolbarSpacer/>
                 <Button
                    type="Reject"
                    text="{i18n>cancelText}"
                    press=".onCancel"
                    ariaDescribedBy="rejectButtonDescription genericButtonDescription"
                 />
-                <ToolbarSpacer/>
             </OverflowToolbar>
         </footer>
     </Page>

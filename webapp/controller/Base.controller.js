@@ -10,7 +10,7 @@ sap.ui.define([
   "sap/m/Button",
   "sap/m/Text",
   "sap/m/library",
-], function (Controller, Filter, FilterOperator, MessagePopover, MessageItem, Message, coreLibrary, Dialog, Button, Text, mobileLibrary, ) {
+], function (Controller, Filter, FilterOperator, MessagePopover, MessageItem, Message, coreLibrary, Dialog, Button, Text, mobileLibrary) {
   "use strict";
 
   // shortcut for sap.ui.core.MessageType

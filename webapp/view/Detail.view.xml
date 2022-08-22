@@ -21,12 +21,12 @@
                     ariaDescribedBy="rejectButtonDescription genericButtonDescription"
             />
             <Button
-                    text="{i18n>editText}"
+                    icon="sap-icon://edit"
                     enabled="true"
                     press=".switchEditMode"
             />
         </OverflowToolbar>
-        <VBox id="formContainer" fitContainer="true">
+        <VBox id="formContainer" >
         <f:SimpleForm id="SimpleFormDisplay480"
                       editable="true"
                       columnsM="2"

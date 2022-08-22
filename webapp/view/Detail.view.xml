@@ -8,7 +8,7 @@
             title="{i18n>detailPageTitle}"
             showNavButton="{= !${state>/edit}}"
             navButtonPress=".onNavBack">
-        <OverflowToolbar  class="overflow-paddings" height="70px" visible="{= !${state>/edit}}">
+        <OverflowToolbar class="overflow-paddings" height="60px" visible="{= !${state>/edit}}">
             <Title
                 text="{data>/ProductName}"
             />
@@ -102,6 +102,14 @@
                         <Title text="{i18n>consumersTitle}"/>
                         <ToolbarSpacer/>
                         <Button
+                            type="Accept"
+                            icon="sap-icon://add"
+                            visible="{state>/edit}"
+                            tooltip="{i18n>createText}"
+                            press=".onCreateCustomer"
+                            ariaDescribedBy="rejectButtonDescription genericButtonDescription"
+                        />
+                        <Button
                             type="Reject"
                             icon="sap-icon://delete"
                             visible="{state>/edit}"
@@ -123,8 +131,30 @@
                 <items>
                     <ColumnListItem>
                         <cells>
-                            <ObjectIdentifier title="{Name}"/>
-                            <Text text="{Status}"/>
+                            <VBox>
+                                <ObjectIdentifier visible="{=!${state>/edit}}" title="{Name}"/>
+                                <Input
+                                        name="Supplier Name"
+                                        change=".onInputChange"
+                                        value="{Name}"
+                                        visible="{state>/edit}"
+                                />
+                            </VBox>
+
+                            <VBox>
+                                <Text visible="{=!${state>/edit}}" text="{Status}"/>
+                                <ComboBox
+                                        id="statuses"
+                                        type="Text"
+                                        value="{Status}"
+                                        visible="{state>/edit}">
+                                    <items>
+                                        <c:Item key="001" text="New"/>
+                                        <c:Item key="002" text="Old"/>
+                                        <c:Item key="003" text="In progress"/>
+                                    </items>
+                                </ComboBox>
+                            </VBox>
                         </cells>
                     </ColumnListItem>
                 </items>

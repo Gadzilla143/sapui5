@@ -111,9 +111,9 @@ sap.ui.define([
     },
 
     switchEditMode: function () {
-      if (!this.getView().getModel("state").oData.edit) {
+      if (!this.getView().getModel("state").getProperty('/edit')) {
         this.prevData = Object.assign({}, this.data);
-        this.Consumers = [...this.byId("consumerList").getModel().oData.Consumers];
+        this.Consumers = structuredClone(this.byId("consumerList").getModel().oData.Consumers)
       } else {
         if (this.getView().getModel("state").oData.new) {
           this.deleteItem();
@@ -122,6 +122,18 @@ sap.ui.define([
         }
       }
       this.switchEditModeUrl();
+    },
+
+    onCreateCustomer: function () {
+      var ID = (new Date()).toISOString();
+      this.data.Consumers.push({
+        "ID": ID,
+        "Name": "",
+        "Date": new Date(),
+        "Status": "New"
+      })
+      this.byId('consumerList').getModel().setProperty("/Consumers", this.data.Consumers);
+      this.onInputChange();
     },
 
     switchEditModeUrl: function () {

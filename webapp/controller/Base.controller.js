@@ -78,7 +78,6 @@ sap.ui.define([
           template: new MessageItem(
             {
               title: "{message>message}",
-              subtitle: "{message>additionalText}",
               groupName: {parts: [{path: 'message>controlIds'}],},
               activeTitle: {parts: [{path: 'message>controlIds'}], formatter: this.isPositionable},
               type: "{message>type}",
@@ -105,7 +104,6 @@ sap.ui.define([
           new Message({
             message: this.i18('fieldRequired', [name]),
             type: MessageType.Error,
-            additionalText: oInput.getLabels()[0].getText(),
             target: sTarget,
             processor: this.getView().getModel()
           })
@@ -117,13 +115,11 @@ sap.ui.define([
       var sTarget = oInput.getBindingPath("value");
       var name = oInput.getName();
 
-
       if (oInput.getValue() < 0 || !oInput.getValue()) {
         this._MessageManager.addMessages(
           new Message({
             message: this.i18('fieldPositive', [name]),
             type: MessageType.Error,
-            additionalText: oInput.getLabels()[0].getText(),
             target: sTarget,
             processor: this.getView().getModel()
           })
@@ -140,7 +136,11 @@ sap.ui.define([
     _generateInvalidUserInput: function () {
       var oButton = this.getView().byId("messagePopoverBtn");
       var oForm = this.getView().byId("formContainer").getItems()[0].getContent();
-      var inputs = oForm.filter(el => el.getMetadata()._sUIDToken === 'input');
+      var formInputs = oForm.filter(el => el.getMetadata().getName() === 'sap.m.Input');
+      var table = this.getView().byId("consumerList");
+      var tableInputs = table.getItems().map(el => el.mAggregations.cells[0].mAggregations.items[1])
+      var inputs = formInputs.concat(tableInputs);
+
       oButton.setVisible(true);
 
       inputs.forEach(el => {

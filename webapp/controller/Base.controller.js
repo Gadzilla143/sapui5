@@ -29,14 +29,16 @@ sap.ui.define([
     },
 
     removeSelectedItems: function (data, selectedItems) {
-      var selectedIds = selectedItems.map(item => item.getBindingContext().getProperty('ID'));
+      var selectedIds = structuredClone(selectedItems.map(item => item.getBindingContext().getProperty('ID')));
+      var dataCopy = structuredClone(data);
       selectedIds.forEach(id => {
-        data.forEach((row, i) => {
+        dataCopy.forEach((row, i) => {
           if (row.ID === id) {
-            data.splice(i,1);
+            dataCopy.splice(i,1);
           }
         })
       })
+      return dataCopy
     },
 
     createDeleteModal: function ({dialogText, onDelete, onCancel}) {

@@ -91,9 +91,9 @@ sap.ui.define([
       var table = this.byId("consumerList");
       var selectedItems = table.getSelectedItems();
 
-      this.removeSelectedItems(this.data.Consumers, selectedItems);
+      var dataDiff = this.removeSelectedItems(this.data.Consumers, selectedItems);
 
-      this.byId('consumerList').getModel().setProperty("/Consumers", this.data.Consumers);
+      this.byId('consumerList').getModel().setProperty("/Consumers", dataDiff);
     },
 
     onDelete: function () {

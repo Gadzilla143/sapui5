@@ -87,9 +87,8 @@ sap.ui.define([
     deleteItems: function() {
       var table = this.byId("invoiceList");
       var selectedItems = table.getSelectedItems();
-      this.removeSelectedItems(this._data.Invoices, selectedItems);
-      this.getOwnerComponent().getModel("invoice").setProperty("/Invoices", this._data.Invoices);
-      table.removeSelections(true);
+      var dataDiff = this.removeSelectedItems(this._data.Invoices, selectedItems);
+      this.getOwnerComponent().getModel("invoice").setProperty("/Invoices", dataDiff);
     },
 
     onCreate: function () {

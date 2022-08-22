@@ -11,14 +11,14 @@ sap.ui.define([
       this.statuses = this.byId("slStatus");
       this.supplier = this.byId("slSupplier");
 
-      this._data = this.getOwnerComponent().getModel("invoice").oData;
+      this._data = this.model("invoice").getData();
       var oViewModel = new JSONModel({
         currency: "EUR",
         selected: false,
       });
       this.getView().setModel(oViewModel, "view");
 
-      this.byId('invoiceList').setModel(this.getOwnerComponent().getModel("invoice"));
+      this.byId('invoiceList').setModel(this.model("invoice"));
 
       var oRouter = this.getOwnerComponent().getRouter();
       oRouter.attachRouteMatched(this._onObjectMatched, this);
@@ -35,7 +35,7 @@ sap.ui.define([
       if (!this._data) {
         return;
       }
-      this.byId('invoiceList').setModel(this.getOwnerComponent().getModel("invoice"));
+      this.byId('invoiceList').setModel(this.model("invoice"));
     },
 
     onFilterChange: function () {
@@ -88,7 +88,7 @@ sap.ui.define([
       var table = this.byId("invoiceList");
       var selectedItems = table.getSelectedItems();
       var dataDiff = this.removeSelectedItems(this._data.Invoices, selectedItems);
-      this.getOwnerComponent().getModel("invoice").setProperty("/Invoices", dataDiff);
+      this.model("invoice").setProperty("/Invoices", dataDiff);
     },
 
     onCreate: function () {

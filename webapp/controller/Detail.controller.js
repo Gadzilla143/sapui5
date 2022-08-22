@@ -47,7 +47,7 @@ sap.ui.define([
       this.getView().setModel(oStateModel, "state");
       this.sObjectId = oEvent.getParameter("arguments").objectId;
       if (!this.data || this.data.ID !== this.sObjectId) {
-        this.data = this.getOwnerComponent().getModel("invoice").oData.Invoices.filter(item => item.ID === this.sObjectId)[0];
+        this.data = this.model("invoice").getData().Invoices.filter(item => item.ID === this.sObjectId)[0];
       }
       var oConsumers = new JSONModel({
         "Consumers": this.data.Consumers
@@ -113,9 +113,9 @@ sap.ui.define([
     switchEditMode: function () {
       if (!this.getView().getModel("state").getProperty('/edit')) {
         this.prevData = Object.assign({}, this.data);
-        this.Consumers = structuredClone(this.byId("consumerList").getModel().oData.Consumers)
+        this.Consumers = structuredClone(this.byId("consumerList").getModel().getData().Consumers)
       } else {
-        if (this.getView().getModel("state").oData.new) {
+        if (this.getView().getModel("state").getData().new) {
           this.deleteItem();
           this.onNavBack();
           return;
@@ -138,7 +138,7 @@ sap.ui.define([
 
     switchEditModeUrl: function () {
       var oRouter = this.getOwnerComponent().getRouter();
-      var bEditMode = this.getView().getModel("state").oData.edit;
+      var bEditMode = this.getView().getModel("state").getData().edit;
       oRouter.navTo("detail", {
         objectId: this.sObjectId,
         mode: bEditMode ? "view" : "edit",
@@ -148,7 +148,7 @@ sap.ui.define([
     onInputChange: function () {
       this._MessageManager.removeAllMessages();
       this._generateInvalidUserInput();
-      if (!this.getView().getModel("message").oData.length) {
+      if (!this.getView().getModel("message").getData().length) {
         this.oMP.close();
         this.hideErrorButton();
       } else {
@@ -158,20 +158,20 @@ sap.ui.define([
 
     deleteItem: function () {
       var selectedItemId = this.sObjectId;
-      var items = this.getOwnerComponent().getModel("invoice").oData;
+      var items = this.model("invoice").getData();
       var result = items.Invoices.filter(item => item.ID !== selectedItemId);
-      this.getOwnerComponent().getModel("invoice").setProperty('/Invoices', result);
+      this.model("invoice").setProperty('/Invoices', result);
     },
 
     onSave: function () {
-      if (this.getView().getModel("message").oData.length) {
+      if (this.getView().getModel("message").getData().length) {
         return;
       }
       this.prevData = null;
       this.switchEditMode();
       this.deleteItem();
-      var { Invoices } = this.getOwnerComponent().getModel("invoice").oData;
-      this.getOwnerComponent().getModel("invoice").setProperty('/Invoices', Invoices.concat(this.data));
+      var { Invoices } = this.model("invoice").getData();
+      this.model("invoice").setProperty('/Invoices', Invoices.concat(this.data));
     },
 
     onCancel: function () {

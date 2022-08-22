@@ -28,6 +28,10 @@ sap.ui.define([
       return new Filter(field, filterType, value)
     },
 
+    model: function (field) {
+      return this.getOwnerComponent().getModel(field)
+    },
+
     removeSelectedItems: function (data, selectedItems) {
       var selectedIds = structuredClone(selectedItems.map(item => item.getBindingContext().getProperty('ID')));
       var dataCopy = structuredClone(data);

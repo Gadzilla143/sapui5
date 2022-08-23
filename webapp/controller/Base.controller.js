@@ -10,17 +10,13 @@ sap.ui.define([
   "sap/m/Button",
   "sap/m/Text",
   "sap/m/library",
-], function (Controller, Filter, FilterOperator, MessagePopover, MessageItem, Message, coreLibrary, Dialog, Button, Text, mobileLibrary) {
+  "sap/ui/core/Fragment",
+  "sap/ui/model/json/JSONModel",
+], function (Controller, Filter, FilterOperator, MessagePopover, MessageItem, Message, coreLibrary, Dialog, Button, Text, mobileLibrary, Fragment, JSONModel) {
   "use strict";
 
   // shortcut for sap.ui.core.MessageType
   var MessageType = coreLibrary.MessageType;
-
-  // shortcut for sap.m.DialogType
-  var DialogType = mobileLibrary.DialogType;
-
-  // shortcut for sap.m.ButtonType
-  var ButtonType = mobileLibrary.ButtonType;
 
   return Controller.extend("sap.ui.demo.walkthrough.controller.Base", {
 
@@ -45,29 +41,21 @@ sap.ui.define([
       return dataCopy
     },
 
-    createDeleteModal: function ({dialogText, onDelete, onCancel}) {
-      this.oDefaultDialog = new Dialog({
-        title: "Deleting",
-        content: new Text({ text: dialogText }),
-        type: DialogType.Message,
-        beginButton: new Button({
-          type: ButtonType.Emphasized,
-          text: "OK",
-          press: function () {
-            onDelete && onDelete();
-            this.oDefaultDialog.close();
-          }.bind(this)
-        }),
-        endButton: new Button({
-          text: "Close",
-          press: function () {
-            onCancel && onCancel();
-            this.oDefaultDialog.close();
-          }.bind(this)
-        })
-      });
-      this.getView().addDependent(this.oDefaultDialog);
-      this.oDefaultDialog.open();
+    createDeleteModal: function ({ dialogText, view }) {
+      if (!this.pDialog) {
+        this.pDialog = this.loadFragment({
+          name: "sap.ui.demo.walkthrough.fragments.DeleteModal",
+        });
+      }
+      this.pDialog.then(function(oDialog) {
+        view.setModel(new JSONModel({'text': dialogText}), 'modalMessage')
+        view.addDependent(oDialog);
+        oDialog.open();
+      })
+    },
+
+    onDialogClose : function () {
+      this.byId("deleteDialog").close();
     },
 
     i18: function (type, strArr) {

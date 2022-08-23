@@ -7,13 +7,6 @@ sap.ui.define([
 ], function (BaseController, History, MessageToast, JSONModel, Core) {
   "use strict";
 
-  var NameToFieldType = {
-    "Name": "ProductName",
-    "Quantity": "Quantity",
-    "Price": "ExtendedPrice",
-    "Supplier": "ShipperName",
-  }
-
   return BaseController.extend("sap.ui.demo.walkthrough.controller.Detail", {
 
     onInit: function () {
@@ -77,13 +70,9 @@ sap.ui.define([
         ? singleDeleteText
         : multiDeleteText
 
-      var onDelete = () => {
-        this.deleteItems();
-      }
-
       this.createDeleteModal({
         dialogText,
-        onDelete
+        view: this.getView()
       })
     },
 
@@ -93,21 +82,27 @@ sap.ui.define([
 
       var dataDiff = this.removeSelectedItems(this.data.Consumers, selectedItems);
 
+      this.data.Consumers = dataDiff;
       this.byId('consumerList').getModel().setProperty("/Consumers", dataDiff);
     },
 
     onDelete: function () {
       var dialogText = this.i18('invoiceOnDeleteSingle', [this.data.ProductName]);
 
-      var onDelete = () => {
-        this.deleteItem();
-        this.onNavBack();
-      };
-
       this.createDeleteModal({
         dialogText,
-        onDelete
+        view: this.getView()
       });
+    },
+
+    onDialogDelete: function () {
+      if (this.getView().getModel("state").getData().edit) {
+        this.deleteItems();
+      } else {
+        this.deleteItem();
+        this.onNavBack();
+      }
+      this.onDialogClose();
     },
 
     switchEditMode: function () {

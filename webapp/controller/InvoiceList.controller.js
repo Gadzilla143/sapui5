@@ -6,7 +6,6 @@ sap.ui.define([
 
   return BaseController.extend("sap.ui.demo.walkthrough.controller.InvoiceList", {
     onInit: function () {
-      this.oDefaultDialog = null;
       this.search = this.byId("slProductName");
       this.statuses = this.byId("slStatus");
       this.supplier = this.byId("slSupplier");
@@ -74,14 +73,15 @@ sap.ui.define([
         ? singleDeleteText
         : multiDeleteText
 
-      var onDelete = () => {
-        this.deleteItems()
-      };
-
       this.createDeleteModal({
         dialogText,
-        onDelete
+        view: this.getView()
       });
+    },
+
+    onDialogDelete: function () {
+      this.deleteItems();
+      this.onDialogClose();
     },
 
     deleteItems: function() {

@@ -15,8 +15,8 @@ sap.ui.define([
 
     /**
      * Initialize Detail page (set initial model)
+     * @private
      */
-
     onInit: function () {
       var oViewModel = new JSONModel({
         currency: "EUR",
@@ -39,9 +39,9 @@ sap.ui.define([
 
     /**
      * Switch data and viewMode on urlChange
+     * @private
      * @param {object} changeUrlEvent
      */
-
     _onObjectMatched: function (oEvent) {
       this.hideErrorButton();
 
@@ -66,8 +66,8 @@ sap.ui.define([
 
     /**
      * Handle consumer table selection
+     * @private
      */
-
     onSelection: function() {
       var table = this.byId("consumerList");
       var selectedItems = table.getSelectedItems();
@@ -76,8 +76,8 @@ sap.ui.define([
 
     /**
      * Handle delete consumer button click
+     * @private
      */
-
     onDeleteCustomer: function () {
       var table = this.byId("consumerList");
       var selectedItems = table.getSelectedItems();
@@ -99,8 +99,8 @@ sap.ui.define([
 
     /**
      * Delete selected customers
+     * @private
      */
-
     deleteItems: function () {
       var table = this.byId("consumerList");
       var selectedItems = table.getSelectedItems();
@@ -113,8 +113,8 @@ sap.ui.define([
 
     /**
      * Handle delete invoice button click
+     * @private
      */
-
     onDelete: function () {
       var dialogText = this.i18('invoiceOnDeleteSingle', [this.data.ProductName]);
 
@@ -126,8 +126,8 @@ sap.ui.define([
 
     /**
      * Handle delete modal event
+     * @private
      */
-
     onDialogDelete: function () {
       if (this.getView().getModel("state").getData().edit) {
         this.deleteItems();
@@ -140,8 +140,8 @@ sap.ui.define([
 
     /**
      * Switch viewMode
+     * @private
      */
-
     switchEditMode: function () {
       if (!this.getView().getModel("state").getProperty('/edit')) {
         this.prevData = Object.assign({}, this.data);
@@ -158,8 +158,8 @@ sap.ui.define([
 
     /**
      * Create new Customer
+     * @private
      */
-
     onCreateCustomer: function () {
       var ID = (new Date()).toISOString();
       this.data.Consumers.push({
@@ -174,8 +174,8 @@ sap.ui.define([
 
     /**
      * Switch viewMode url
+     * @private
      */
-
     switchEditModeUrl: function () {
       var oRouter = this.getOwnerComponent().getRouter();
       var bEditMode = this.getView().getModel("state").getData().edit;
@@ -187,8 +187,8 @@ sap.ui.define([
 
     /**
      * Handle input change
+     * @private
      */
-
     onInputChange: function () {
       this._MessageManager.removeAllMessages();
       this._generateInvalidUserInput();
@@ -202,8 +202,8 @@ sap.ui.define([
 
     /**
      * Delete current item
+     * @private
      */
-
     deleteItem: function () {
       var selectedItemId = this.sObjectId;
       var items = this.model("invoice").getData();
@@ -213,8 +213,8 @@ sap.ui.define([
 
     /**
      * Save current changes of the invoice
+     * @private
      */
-
     onSave: function () {
       if (this.getView().getModel("message").getData().length) {
         return;
@@ -228,8 +228,8 @@ sap.ui.define([
 
     /**
      * Return back state of the invoice
+     * @private
      */
-
     onCancel: function () {
       this.switchEditMode();
       this.data = this.prevData;
@@ -239,8 +239,8 @@ sap.ui.define([
 
     /**
      * Navigation to the overview page
+     * @private
      */
-
     onNavBack: function () {
       var oRouter = this.getOwnerComponent().getRouter();
       oRouter.navTo("overview", {}, true);
@@ -248,8 +248,8 @@ sap.ui.define([
 
     /**
      * Handle error popover click
+     * @private
      */
-
     handleMessagePopoverPress: function (oEvent) {
       if (!this.oMP) {
         this.createMessagePopover();

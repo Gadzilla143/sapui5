@@ -27,33 +27,33 @@ sap.ui.define([
 
     /**
      * Create new filter object
+     * @public
      * @param {string} fieldName
      * @param {(string|number)} filterValue
      * @param {string} filterType
-     * @return {object} New filter instance
+     * @return {sap.ui.model.FilterOperator} New filter instance
      */
-
     createFilter: function (field, value, filterType = FilterOperator.Contains) {
       return new Filter(field, filterType, value)
     },
 
     /**
      * Get global model field
+     * @public
      * @param {string} fieldName
-     * @return {object} model value
+     * @return {JSONModel} model value
      */
-
     model: function (field) {
       return this.getOwnerComponent().getModel(field)
     },
 
     /**
      * Diff between data and selected items
-     * @param {Array.<{T}>} initialItems
-     * @param {Array.<{T}>} selectedItems
-     * @return {Array.<{T}>} diff between initialItems and selectedItems
+     * @public
+     * @param {Object[]} initialItems
+     * @param {Object[]} selectedItems
+     * @return {Object[]} diff between initialItems and selectedItems
      */
-
     removeSelectedItems: function (data, selectedItems) {
       var selectedIds = structuredClone(selectedItems.map(item => item.getBindingContext().getProperty('ID')));
       var dataCopy = structuredClone(data);
@@ -69,10 +69,10 @@ sap.ui.define([
 
     /**
      * Create delete modal
+     * @public
      * @param {string} descModalText
-     * @param {object} currentView
+     * @param {sap.ui.core.mvc.View} currentView
      */
-
     createDeleteModal: function ({ dialogText, view }) {
       if (!this.pDialog) {
         this.pDialog = this.loadFragment({
@@ -88,19 +88,19 @@ sap.ui.define([
 
     /**
      * Close delete Modal
+     * @public
      */
-
     onDialogClose : function () {
       this.byId("deleteDialog").close();
     },
 
     /**
      * Access to i18n model
+     * @public
      * @param {string} fieldName
-     * @param {array} additionalStrings
+     * @param {Array.<string>} additionalStrings
      * @return {string} i18n string
      */
-
     i18: function (type, strArr) {
       var oResourceBundle = this.getView().getModel("i18n").getResourceBundle();
       return oResourceBundle.getText(type, strArr);
@@ -110,8 +110,8 @@ sap.ui.define([
 
     /**
      * Create message popover
+     * @public
      */
-
     createMessagePopover: function () {
       this.oMP = new MessagePopover({
         items: {
@@ -133,9 +133,9 @@ sap.ui.define([
 
     /**
      * Handle required field
+     * @public
      * @param {string} inputValue
      */
-
     handleRequiredField: function (oInput) {
       var sTarget = oInput.getBindingPath("value");
       var name = oInput.getName();
@@ -154,9 +154,9 @@ sap.ui.define([
 
     /**
      * Handle positive field
+     * @public
      * @param {string} inputValue
      */
-
     handlePositiveField: function (oInput) {
       var sTarget = oInput.getBindingPath("value");
       var name = oInput.getName();
@@ -175,8 +175,8 @@ sap.ui.define([
 
     /**
      * Hide error button when error list is empty
+     * @public
      */
-
     hideErrorButton: function () {
       this._MessageManager.removeAllMessages();
       var oButton = this.getView().byId("messagePopoverBtn");
@@ -185,8 +185,8 @@ sap.ui.define([
 
     /**
      * Handle input change and generate error list
+     * @public
      */
-
     _generateInvalidUserInput: function () {
       var oButton = this.getView().byId("messagePopoverBtn");
       var oForm = this.getView().byId("formContainer").getItems()[0].getContent();

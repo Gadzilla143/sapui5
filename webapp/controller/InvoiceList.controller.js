@@ -12,8 +12,8 @@ sap.ui.define([
 
     /**
      * Initialize InvoiceList page (set initial model)
+     * @private
      */
-
     onInit: function () {
       this.search = this.byId("slProductName");
       this.statuses = this.byId("slStatus");
@@ -34,8 +34,8 @@ sap.ui.define([
 
     /**
      * Handle invoice table selection
+     * @private
      */
-
     onSelection: function() {
       var table = this.byId("invoiceList");
       var selectedItems = table.getSelectedItems();
@@ -45,9 +45,8 @@ sap.ui.define([
 
     /**
      * Switch data on urlChange
-     * @param {object} changeUrlEvent
+     * @private
      */
-
     _onObjectMatched: function () {
       if (!this._data) {
         return;
@@ -57,8 +56,8 @@ sap.ui.define([
 
     /**
      * Change table data depends on filters
+     * @private
      */
-
     onFilterChange: function () {
       var oList = this.byId("invoiceList");
       var oBinding = oList.getBinding("items");
@@ -84,8 +83,8 @@ sap.ui.define([
 
     /**
      * Handle delete invoice button click
+     * @private
      */
-
     onDelete: function () {
       var table = this.byId("invoiceList");
       var selectedItems = table.getSelectedItems();
@@ -107,8 +106,8 @@ sap.ui.define([
 
     /**
      * Handle delete modal event
+     * @private
      */
-
     onDialogDelete: function () {
       this.deleteItems();
       this.onDialogClose();
@@ -116,8 +115,8 @@ sap.ui.define([
 
     /**
      * Delete selected invoices
+     * @private
      */
-
     deleteItems: function() {
       var table = this.byId("invoiceList");
       var selectedItems = table.getSelectedItems();
@@ -127,8 +126,8 @@ sap.ui.define([
 
     /**
      * Create new invoice
+     * @private
      */
-
     onCreate: function () {
       var ID = (new Date()).toISOString();
       this._data.Invoices.push({
@@ -149,9 +148,9 @@ sap.ui.define([
 
     /**
      * Handle invoice click
-     * @param {object} event
+     * @private
+     * @param {sap.ui.base.Event} event
      */
-
     onPress: function (oEvent) {
       var oItem = oEvent.getSource();
       var oRouter = this.getOwnerComponent().getRouter();

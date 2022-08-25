@@ -16,7 +16,7 @@ sap.ui.define([
     },
     /**
      * Initialize global model
-     * @public
+     * @private
      */
     init: function () {
       UIComponent.prototype.init.apply(this, arguments);

@@ -28,7 +28,7 @@ sap.ui.define([
     /**
      * Create new filter object
      * @param {string} fieldName
-     * @param {any} filterValue
+     * @param {(string|number)} filterValue
      * @param {string} filterType
      * @return {object} New filter instance
      */
@@ -49,9 +49,9 @@ sap.ui.define([
 
     /**
      * Diff between data and selected items
-     * @param {array} initialData
-     * @param {array} selectedItems
-     * @return {array} diff between initialData and selectedItems
+     * @param {Array.<{T}>} initialItems
+     * @param {Array.<{T}>} selectedItems
+     * @return {Array.<{T}>} diff between initialItems and selectedItems
      */
 
     removeSelectedItems: function (data, selectedItems) {

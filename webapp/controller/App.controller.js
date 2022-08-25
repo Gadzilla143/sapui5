@@ -7,8 +7,7 @@ sap.ui.define([
   "use strict";
   return BaseController.extend("sap.ui.demo.walkthrough.controller.App", {
     /**
-     * Add content css class
-     * @public
+     * Add global css class depend on device
      */
     onInit: function () {
       this.getView().addStyleClass(this.getOwnerComponent().getContentDensityClass());

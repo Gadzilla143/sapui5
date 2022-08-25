@@ -1,3 +1,7 @@
+/**
+ * @module Detail
+ */
+
 sap.ui.define([
   "./Base.controller",
   "sap/ui/core/routing/History",
@@ -8,6 +12,10 @@ sap.ui.define([
   "use strict";
 
   return BaseController.extend("sap.ui.demo.walkthrough.controller.Detail", {
+
+    /**
+     * Initialize Detail page (set initial model)
+     */
 
     onInit: function () {
       var oViewModel = new JSONModel({
@@ -28,6 +36,11 @@ sap.ui.define([
       this.getView().setModel(this._MessageManager.getMessageModel(), "message");
       this.createMessagePopover();
     },
+
+    /**
+     * Switch data and viewMode on urlChange
+     * @param {object} changeUrlEvent
+     */
 
     _onObjectMatched: function (oEvent) {
       this.hideErrorButton();
@@ -51,11 +64,19 @@ sap.ui.define([
       this.getView().setModel(oModel, "data");
     },
 
+    /**
+     * Handle consumer table selection
+     */
+
     onSelection: function() {
       var table = this.byId("consumerList");
       var selectedItems = table.getSelectedItems();
       this.getView().getModel("view").setProperty('/selected', !!selectedItems.length );
     },
+
+    /**
+     * Handle delete consumer button click
+     */
 
     onDeleteCustomer: function () {
       var table = this.byId("consumerList");
@@ -76,6 +97,10 @@ sap.ui.define([
       })
     },
 
+    /**
+     * Delete selected customers
+     */
+
     deleteItems: function () {
       var table = this.byId("consumerList");
       var selectedItems = table.getSelectedItems();
@@ -86,6 +111,10 @@ sap.ui.define([
       this.byId('consumerList').getModel().setProperty("/Consumers", dataDiff);
     },
 
+    /**
+     * Handle delete invoice button click
+     */
+
     onDelete: function () {
       var dialogText = this.i18('invoiceOnDeleteSingle', [this.data.ProductName]);
 
@@ -94,6 +123,10 @@ sap.ui.define([
         view: this.getView()
       });
     },
+
+    /**
+     * Handle delete modal event
+     */
 
     onDialogDelete: function () {
       if (this.getView().getModel("state").getData().edit) {
@@ -104,6 +137,10 @@ sap.ui.define([
       }
       this.onDialogClose();
     },
+
+    /**
+     * Switch viewMode
+     */
 
     switchEditMode: function () {
       if (!this.getView().getModel("state").getProperty('/edit')) {
@@ -119,6 +156,10 @@ sap.ui.define([
       this.switchEditModeUrl();
     },
 
+    /**
+     * Create new Customer
+     */
+
     onCreateCustomer: function () {
       var ID = (new Date()).toISOString();
       this.data.Consumers.push({
@@ -131,6 +172,10 @@ sap.ui.define([
       this.onInputChange();
     },
 
+    /**
+     * Switch viewMode url
+     */
+
     switchEditModeUrl: function () {
       var oRouter = this.getOwnerComponent().getRouter();
       var bEditMode = this.getView().getModel("state").getData().edit;
@@ -139,6 +184,10 @@ sap.ui.define([
         mode: bEditMode ? "view" : "edit",
       });
     },
+
+    /**
+     * Handle input change
+     */
 
     onInputChange: function () {
       this._MessageManager.removeAllMessages();
@@ -151,12 +200,20 @@ sap.ui.define([
       }
     },
 
+    /**
+     * Delete current item
+     */
+
     deleteItem: function () {
       var selectedItemId = this.sObjectId;
       var items = this.model("invoice").getData();
       var result = items.Invoices.filter(item => item.ID !== selectedItemId);
       this.model("invoice").setProperty('/Invoices', result);
     },
+
+    /**
+     * Save current changes of the invoice
+     */
 
     onSave: function () {
       if (this.getView().getModel("message").getData().length) {
@@ -169,6 +226,10 @@ sap.ui.define([
       this.model("invoice").setProperty('/Invoices', Invoices.concat(this.data));
     },
 
+    /**
+     * Return back state of the invoice
+     */
+
     onCancel: function () {
       this.switchEditMode();
       this.data = this.prevData;
@@ -176,10 +237,18 @@ sap.ui.define([
       this.data.Consumers = this.Consumers;
     },
 
+    /**
+     * Navigation to the overview page
+     */
+
     onNavBack: function () {
       var oRouter = this.getOwnerComponent().getRouter();
       oRouter.navTo("overview", {}, true);
     },
+
+    /**
+     * Handle error popover click
+     */
 
     handleMessagePopoverPress: function (oEvent) {
       if (!this.oMP) {

@@ -1,3 +1,7 @@
+/**
+ * @module InvoiceList
+ */
+
 sap.ui.define([
   "./Base.controller",
   "sap/ui/model/json/JSONModel",
@@ -5,6 +9,11 @@ sap.ui.define([
   "use strict";
 
   return BaseController.extend("sap.ui.demo.walkthrough.controller.InvoiceList", {
+
+    /**
+     * Initialize InvoiceList page (set initial model)
+     */
+
     onInit: function () {
       this.search = this.byId("slProductName");
       this.statuses = this.byId("slStatus");
@@ -23,6 +32,10 @@ sap.ui.define([
       oRouter.attachRouteMatched(this._onObjectMatched, this);
     },
 
+    /**
+     * Handle invoice table selection
+     */
+
     onSelection: function() {
       var table = this.byId("invoiceList");
       var selectedItems = table.getSelectedItems();
@@ -30,12 +43,21 @@ sap.ui.define([
       this.getView().getModel("view").setProperty('/selected', !!selectedItems.length );
     },
 
+    /**
+     * Switch data on urlChange
+     * @param {object} changeUrlEvent
+     */
+
     _onObjectMatched: function () {
       if (!this._data) {
         return;
       }
       this.byId('invoiceList').setModel(this.model("invoice"));
     },
+
+    /**
+     * Change table data depends on filters
+     */
 
     onFilterChange: function () {
       var oList = this.byId("invoiceList");
@@ -60,6 +82,10 @@ sap.ui.define([
       oBinding.filter(filters);
     },
 
+    /**
+     * Handle delete invoice button click
+     */
+
     onDelete: function () {
       var table = this.byId("invoiceList");
       var selectedItems = table.getSelectedItems();
@@ -79,10 +105,18 @@ sap.ui.define([
       });
     },
 
+    /**
+     * Handle delete modal event
+     */
+
     onDialogDelete: function () {
       this.deleteItems();
       this.onDialogClose();
     },
+
+    /**
+     * Delete selected invoices
+     */
 
     deleteItems: function() {
       var table = this.byId("invoiceList");
@@ -90,6 +124,10 @@ sap.ui.define([
       var dataDiff = this.removeSelectedItems(this._data.Invoices, selectedItems);
       this.model("invoice").setProperty("/Invoices", dataDiff);
     },
+
+    /**
+     * Create new invoice
+     */
 
     onCreate: function () {
       var ID = (new Date()).toISOString();
@@ -108,6 +146,11 @@ sap.ui.define([
         mode: "create",
       });
     },
+
+    /**
+     * Handle invoice click
+     * @param {object} event
+     */
 
     onPress: function (oEvent) {
       var oItem = oEvent.getSource();

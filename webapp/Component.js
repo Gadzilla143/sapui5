@@ -1,3 +1,6 @@
+/**
+ * @module Component
+ */
 sap.ui.define([
   "sap/ui/core/UIComponent",
   "sap/ui/model/json/JSONModel",
@@ -11,7 +14,10 @@ sap.ui.define([
       interfaces: ["sap.ui.core.IAsyncContentCreation"],
       manifest: "json"
     },
-
+    /**
+     * Initialize global model
+     * @public
+     */
     init: function () {
       UIComponent.prototype.init.apply(this, arguments);
 
@@ -22,6 +28,13 @@ sap.ui.define([
 
       this.getRouter().initialize();
     },
+
+    /**
+     * Set css style for current device
+     * @public
+     * @returns {string} css class
+     */
+
     getContentDensityClass : function () {
       if (!this._sContentDensityClass) {
         if (!Device.support.touch) {

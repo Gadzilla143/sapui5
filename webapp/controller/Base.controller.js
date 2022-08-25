@@ -1,3 +1,8 @@
+/**
+ * Provide basic methods for all controllers
+ * @module Base
+ */
+
 sap.ui.define([
   "sap/ui/core/mvc/Controller",
   "sap/ui/model/Filter",
@@ -20,13 +25,34 @@ sap.ui.define([
 
   return Controller.extend("sap.ui.demo.walkthrough.controller.Base", {
 
+    /**
+     * Create new filter object
+     * @param {string} fieldName
+     * @param {any} filterValue
+     * @param {string} filterType
+     * @return {object} New filter instance
+     */
+
     createFilter: function (field, value, filterType = FilterOperator.Contains) {
       return new Filter(field, filterType, value)
     },
 
+    /**
+     * Get global model field
+     * @param {string} fieldName
+     * @return {object} model value
+     */
+
     model: function (field) {
       return this.getOwnerComponent().getModel(field)
     },
+
+    /**
+     * Diff between data and selected items
+     * @param {array} initialData
+     * @param {array} selectedItems
+     * @return {array} diff between initialData and selectedItems
+     */
 
     removeSelectedItems: function (data, selectedItems) {
       var selectedIds = structuredClone(selectedItems.map(item => item.getBindingContext().getProperty('ID')));
@@ -41,6 +67,12 @@ sap.ui.define([
       return dataCopy
     },
 
+    /**
+     * Create delete modal
+     * @param {string} descModalText
+     * @param {object} currentView
+     */
+
     createDeleteModal: function ({ dialogText, view }) {
       if (!this.pDialog) {
         this.pDialog = this.loadFragment({
@@ -54,9 +86,20 @@ sap.ui.define([
       })
     },
 
+    /**
+     * Close delete Modal
+     */
+
     onDialogClose : function () {
       this.byId("deleteDialog").close();
     },
+
+    /**
+     * Access to i18n model
+     * @param {string} fieldName
+     * @param {array} additionalStrings
+     * @return {string} i18n string
+     */
 
     i18: function (type, strArr) {
       var oResourceBundle = this.getView().getModel("i18n").getResourceBundle();
@@ -64,6 +107,10 @@ sap.ui.define([
     },
 
     //error handling stuff
+
+    /**
+     * Create message popover
+     */
 
     createMessagePopover: function () {
       this.oMP = new MessagePopover({
@@ -73,7 +120,7 @@ sap.ui.define([
             {
               title: "{message>message}",
               groupName: {parts: [{path: 'message>controlIds'}],},
-              activeTitle: {parts: [{path: 'message>controlIds'}], formatter: this.isPositionable},
+              activeTitle: {parts: [{path: 'message>controlIds'}], formatter: () => true},
               type: "{message>type}",
               description: "{message>message}"
             })
@@ -84,14 +131,14 @@ sap.ui.define([
       this.getView().byId("messagePopoverBtn").addDependent(this.oMP);
     },
 
-    isPositionable : function (sControlId) {
-      return sControlId ? true : true;
-    },
+    /**
+     * Handle required field
+     * @param {string} inputValue
+     */
 
     handleRequiredField: function (oInput) {
       var sTarget = oInput.getBindingPath("value");
       var name = oInput.getName();
-
 
       if (!oInput.getValue()) {
         this._MessageManager.addMessages(
@@ -104,6 +151,11 @@ sap.ui.define([
         );
       }
     },
+
+    /**
+     * Handle positive field
+     * @param {string} inputValue
+     */
 
     handlePositiveField: function (oInput) {
       var sTarget = oInput.getBindingPath("value");
@@ -121,11 +173,19 @@ sap.ui.define([
       }
     },
 
+    /**
+     * Hide error button when error list is empty
+     */
+
     hideErrorButton: function () {
       this._MessageManager.removeAllMessages();
       var oButton = this.getView().byId("messagePopoverBtn");
       oButton.setVisible(false);
     },
+
+    /**
+     * Handle input change and generate error list
+     */
 
     _generateInvalidUserInput: function () {
       var oButton = this.getView().byId("messagePopoverBtn");

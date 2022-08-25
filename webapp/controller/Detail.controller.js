@@ -40,7 +40,7 @@ sap.ui.define([
     /**
      * Switch data and viewMode on urlChange
      * @private
-     * @param {object} changeUrlEvent
+     * @param {sap.m.routing.Router} changeUrlEvent
      */
     _onObjectMatched: function (oEvent) {
       this.hideErrorButton();

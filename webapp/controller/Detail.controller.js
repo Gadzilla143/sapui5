@@ -30,7 +30,6 @@ sap.ui.define([
       var oRouter = this.getOwnerComponent().getRouter();
       oRouter.getRoute("detail").attachPatternMatched(this._onObjectMatched, this);
 
-      // MessageBox
       this._MessageManager = Core.getMessageManager();
       this._MessageManager.registerObject(this.getView().byId("formContainer"), true);
       this.getView().setModel(this._MessageManager.getMessageModel(), "message");

@@ -20,7 +20,6 @@ sap.ui.define([
 ], function (Controller, Filter, FilterOperator, MessagePopover, MessageItem, Message, coreLibrary, Dialog, Button, Text, mobileLibrary, Fragment, JSONModel) {
   "use strict";
 
-  // shortcut for sap.ui.core.MessageType
   var MessageType = coreLibrary.MessageType;
 
   return Controller.extend("sap.ui.demo.walkthrough.controller.Base", {
@@ -105,8 +104,6 @@ sap.ui.define([
       var oResourceBundle = this.getView().getModel("i18n").getResourceBundle();
       return oResourceBundle.getText(type, strArr);
     },
-
-    //error handling stuff
 
     /**
      * Create message popover

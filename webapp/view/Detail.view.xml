@@ -51,7 +51,7 @@
                 change=".onInputChange"
                 editable="{state>/edit}"
             />
-            <Label text="Price {view>/currency}" />
+            <Label text="{i18n>priceTitle} {view>/currency}" />
             <Input
                 name="Price"
                 type="Number"
